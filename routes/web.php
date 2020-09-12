@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RegistroMateriaPrimaController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::post('MateriaPrima', [RegistroMateriaPrimaController::class, 'store']);
+Route::get('MateriaPrima', [RegistroMateriaPrimaController::class, 'index']);
+// Route::put('MateriaPrima', [RegistroMateriaPrimaController::class, 'update']);
+// Route::delete('MateriaPrima', [RegistroMateriaPrimaController::class, 'destroy']);
+
+
