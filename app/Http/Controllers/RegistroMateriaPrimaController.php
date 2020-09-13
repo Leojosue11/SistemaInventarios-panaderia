@@ -7,7 +7,7 @@ use App\Models\UnidadMedidas;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB; 
+use Illuminate\Support\Facades\DB;
 
 class RegistroMateriaPrimaController extends Controller
 {
@@ -17,20 +17,30 @@ class RegistroMateriaPrimaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
-        //Join para traer informacion de la materia prima y mostrarlo en la vista
+    {
+        /*
         $MateriaPrima = RegistroMateriaPrima::all();
+        $UnidadMedida = UnidadMedidas::all();
         $Unidades = DB::table('registro_materia_primas')
         ->join('unidad_medidas','registro_materia_primas.UnidadMedidaID', '=' , 'unidad_medidas.MagnitudUnidadID')
         ->select('unidad_medidas.*')
         ->get();
-        return '{"MateriaPrima":"'.$MateriaPrima.'","UnidadMedida":"'.$Unidades.'"}';
+        $json = array("status"=>200,
+            "MateriaPrima"=>$MateriaPrima,
+            "Unidades"=>$Unidades,
+            "UnidadMedida"=>$UnidadMedida
+        );
+        return json_encode($json,true);
+        //return '{"MateriaPrima":"'.$MateriaPrima.'","UnidadMedida":"'.$Unidades.'"}';
+       // return $MateriaPrima;*/
+        $materia = RegistroMateriaPrima::all();
+        return $materia;
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -40,36 +50,42 @@ class RegistroMateriaPrimaController extends Controller
         $MateriaPrima = new RegistroMateriaPrima();
 
         //Captura los datos del formulario para Validar
-        $datos = array("CodigoMP" =>$request ->input("CodigoMP"),
-        "NombreMP" =>$request ->input("NombreMP"),
-        "Clase" =>$request ->input("Clase"),
-        "Observacion" =>$request ->input("Observacion"),
-        "Descripcion" =>$request ->input("Descripcion"),
-        "UnidadMedidaId" =>$request ->input("UnidadMedidaId"));
+        $CodigoMP = $request->input("CodigoMP");
+        $NombreMP = $request->input("NombreMP");
+        $Clase = $request->input("Clase");
+        $Observacion = $request->input("Observacion");
+        $Descripcion = $request->input("Descripcion");
+        $UnidadMedidaID = $request->input("UnidadMedidaID");
+        $MateriaPrima->CodigoMP=$CodigoMP;
+        $MateriaPrima->NombreMP=$NombreMP;
+        $MateriaPrima->Clase=$Clase;
+        $MateriaPrima->Observacion=$Observacion;
+        $MateriaPrima->Descripcion=$Descripcion;
+        $MateriaPrima->UnidadMedidaID=$UnidadMedidaID;
+        $MateriaPrima->save();
+        return '{"msg":"creado","result":' . $MateriaPrima . '}';
 
         //Validaciones ($Validator)
-        
-        //Si los datos estan correctos, guarda en la base 
-        $MateriaPrima->CodigoMP = $datos["CodigoMP"];
-        $MateriaPrima->NombreMP = $datos["NombreMP"];
-        $MateriaPrima->Observacion = $datos["Observacion"];
-        $MateriaPrima->Clase = $datos["Clase"];
-        $MateriaPrima->Descripcion = $datos["Descripcion"];
-        $MateriaPrima->UnidadMedidaId = $datos["UnidadMedidaId"];
 
-        $MateriaPrima->save();
-
-        $json = array("status"=>200,
-        "msj"=> "Guardado exitoso"
-        );
-    
-        return json_encode($json, true );
+        //Si los datos estan correctos, guarda en la base
+        /* $MateriaPrima->CodigoMP = $datos["CodigoMP"];
+         $MateriaPrima->NombreMP = $datos["NombreMP"];
+         $MateriaPrima->Clase = $datos["Clase"];
+         $MateriaPrima->Observacion = $datos["Observacion"];
+         $MateriaPrima->Descripcion = $datos["Descripcion"];
+         $MateriaPrima->UnidadMedidaId = $datos["UnidadMedidaId"];
+         $MateriaPrima->save();
+         $json = array(
+             "status" => 200,
+             "msj" => "Guardado exitoso"
+         );
+         return json_encode($json, true);*/
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\RegistroMateriaPrima  $registroMateriaPrima
+     * @param \App\Models\RegistroMateriaPrima $registroMateriaPrima
      * @return \Illuminate\Http\Response
      */
     public function show(RegistroMateriaPrima $registroMateriaPrima)
@@ -80,18 +96,18 @@ class RegistroMateriaPrimaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\RegistroMateriaPrima  $registroMateriaPrima
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\RegistroMateriaPrima $registroMateriaPrima
      * @return \Illuminate\Http\Response
      */
-    public function update( Request $request, RegistroMateriaPrima $registroMateriaPrima)
+    public function update(Request $request, RegistroMateriaPrima $registroMateriaPrima)
     {
-        
     }
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\RegistroMateriaPrima  $registroMateriaPrima
+     * @param \App\Models\RegistroMateriaPrima $registroMateriaPrima
      * @return \Illuminate\Http\Response
      */
     public function destroy(RegistroMateriaPrima $registroMateriaPrima)

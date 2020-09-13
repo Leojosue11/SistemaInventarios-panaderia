@@ -21,7 +21,7 @@ Route::get('/', function () {
 
 
 Route::post('MateriaPrima', [RegistroMateriaPrimaController::class, 'store']);
-Route::get('MateriaPrima', [RegistroMateriaPrimaController::class, 'index']);
+Route::get('MateriaPrima', [RegistroMateriaPrimaController::class,'index']);
 // Route::put('MateriaPrima', [RegistroMateriaPrimaController::class, 'update']);
 // Route::delete('MateriaPrima', [RegistroMateriaPrimaController::class, 'destroy']);
 
