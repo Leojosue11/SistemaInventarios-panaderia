@@ -19,7 +19,8 @@ class CreateRegistroMateriaPrimasTable extends Migration
             $table->string('NombreMP',200);
             $table->string('Clase',200);
             $table->string('Observacion', 100)->default('Sin observación disponible'); //Not null
-            //$table->foreign('ProveedorID')->references('id')->on('users');
+            $table->unsignedBigInteger('ProveedorID');
+            $table->foreign('ProveedorID')->references('IdProveedor')->on('proveedores');
             $table->string('Descripcion', 200)->nullable()->default('Sin descripción disponible'); //Opcional
             $table->unsignedBigInteger('UnidadMedidaID');
             $table->foreign('UnidadMedidaID')->references('IdUnidadMedida')->on('unidad_medidas'); //Llave foránea, tabla UnidadMedidas 

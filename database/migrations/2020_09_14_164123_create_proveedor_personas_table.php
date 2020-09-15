@@ -22,6 +22,7 @@ class CreateProveedorPersonasTable extends Migration
             $table->string('SegundoApellidoProveedor', 12);
             $table->string('NITProveedor', 20);
             $table->string('TelefonoProveedor', 8);
+            $table->string('CodigoProveedor', 15);
 
             $table->timestamps();
         });

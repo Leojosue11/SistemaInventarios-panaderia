@@ -22,6 +22,7 @@ class CreateProveedorEmpresasTable extends Migration
             $table->string('MovilEmpresa', 8);
             $table->string('FaxEmpresa', 9);
             $table->string('NIdFiscalEmpresa', 25);
+            $table->string('CodigoProveedor', 15);
 
             $table->timestamps();
         });
