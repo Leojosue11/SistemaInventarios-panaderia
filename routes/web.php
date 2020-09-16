@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegistroMateriaPrimaController;
+use App\Http\Controllers\UnidadMedidasController;
 
 
 /*
@@ -22,6 +23,9 @@ Route::get('/', function () {
 
 Route::post('MateriaPrima', [RegistroMateriaPrimaController::class, 'store']);
 Route::get('MateriaPrima', [RegistroMateriaPrimaController::class,'index']);
+Route::get('UnidadMateria', [UnidadMedidasController::class,'index']);
+
+
 // Route::put('MateriaPrima', [RegistroMateriaPrimaController::class, 'update']);
 // Route::delete('MateriaPrima', [RegistroMateriaPrimaController::class, 'destroy']);
 

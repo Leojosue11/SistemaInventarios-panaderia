@@ -11,38 +11,25 @@ use Illuminate\Support\Facades\DB;
 
 class RegistroMateriaPrimaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        /*
-        $MateriaPrima = RegistroMateriaPrima::all();
-        $UnidadMedida = UnidadMedidas::all();
-        $Unidades = DB::table('registro_materia_primas')
-        ->join('unidad_medidas','registro_materia_primas.UnidadMedidaID', '=' , 'unidad_medidas.MagnitudUnidadID')
-        ->select('unidad_medidas.*')
-        ->get();
-        $json = array("status"=>200,
-            "MateriaPrima"=>$MateriaPrima,
-            "Unidades"=>$Unidades,
-            "UnidadMedida"=>$UnidadMedida
-        );
-        return json_encode($json,true);
-        //return '{"MateriaPrima":"'.$MateriaPrima.'","UnidadMedida":"'.$Unidades.'"}';
-       // return $MateriaPrima;*/
-        $materia = RegistroMateriaPrima::all();
-        return $materia;
+        $materiaPrima = DB::table('registro_materia_primas')
+            ->join('unidad_medidas', 'registro_materia_primas.UnidadMedidaID', '=', 'unidad_medidas.IdUnidadMedida')
+            ->select(
+                'registro_materia_primas.CodigoMP',
+                'registro_materia_primas.NombreMP',
+                'registro_materia_primas.Clase',
+                'registro_materia_primas.Observacion',
+                'registro_materia_primas.Descripcion',
+                'unidad_medidas.NombreUnidad',
+                'unidad_medidas.IdUnidadMedida'
+            )
+            ->get();
+        return $materiaPrima;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         //RegidtroMateriaPrima::create($request->all());
@@ -56,12 +43,12 @@ class RegistroMateriaPrimaController extends Controller
         $Observacion = $request->input("Observacion");
         $Descripcion = $request->input("Descripcion");
         $UnidadMedidaID = $request->input("UnidadMedidaID");
-        $MateriaPrima->CodigoMP=$CodigoMP;
-        $MateriaPrima->NombreMP=$NombreMP;
-        $MateriaPrima->Clase=$Clase;
-        $MateriaPrima->Observacion=$Observacion;
-        $MateriaPrima->Descripcion=$Descripcion;
-        $MateriaPrima->UnidadMedidaID=$UnidadMedidaID;
+        $MateriaPrima->CodigoMP = $CodigoMP;
+        $MateriaPrima->NombreMP = $NombreMP;
+        $MateriaPrima->Clase = $Clase;
+        $MateriaPrima->Observacion = $Observacion;
+        $MateriaPrima->Descripcion = $Descripcion;
+        $MateriaPrima->UnidadMedidaID = $UnidadMedidaID;
         $MateriaPrima->save();
         return '{"msg":"creado","result":' . $MateriaPrima . '}';
 
@@ -82,34 +69,19 @@ class RegistroMateriaPrimaController extends Controller
          return json_encode($json, true);*/
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\RegistroMateriaPrima $registroMateriaPrima
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(RegistroMateriaPrima $registroMateriaPrima)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\RegistroMateriaPrima $registroMateriaPrima
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, RegistroMateriaPrima $registroMateriaPrima)
     {
+        //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\RegistroMateriaPrima $registroMateriaPrima
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(RegistroMateriaPrima $registroMateriaPrima)
     {
         //
