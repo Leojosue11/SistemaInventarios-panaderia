@@ -14,6 +14,9 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'http://localhost/PanaderiaBG/public/MateriaPrima',
         'http://localhost/PanaderiaBG/public/MateriaPrima/*',
-        'http://localhost/PanaderiaBG/public/UnidadMateria'
+        'http://localhost/PanaderiaBG/public/UnidadMateria',
+        'http://localhost/PanaderiaBG/public/ProveedorMateria',
+        'http://localhost/PanaderiaBG/public/MateriaPrimaProveedor'
+
     ];
 }

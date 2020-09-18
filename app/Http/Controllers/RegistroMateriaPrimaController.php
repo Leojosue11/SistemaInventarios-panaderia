@@ -16,6 +16,7 @@ class RegistroMateriaPrimaController extends Controller
     {
         $materiaPrima = DB::table('registro_materia_primas')
             ->join('unidad_medidas', 'registro_materia_primas.UnidadMedidaID', '=', 'unidad_medidas.IdUnidadMedida')
+            ->join('proveedores','registro_materia_primas.ProveedorID','=','proveedores.IdProveedor')
             ->select(
                 'registro_materia_primas.CodigoMP',
                 'registro_materia_primas.NombreMP',
@@ -23,7 +24,9 @@ class RegistroMateriaPrimaController extends Controller
                 'registro_materia_primas.Observacion',
                 'registro_materia_primas.Descripcion',
                 'unidad_medidas.NombreUnidad',
-                'unidad_medidas.IdUnidadMedida'
+                'unidad_medidas.IdUnidadMedida',
+                'proveedores.NombreProveedor',
+                'proveedores.IdProveedor'
             )
             ->get();
         return $materiaPrima;
@@ -43,13 +46,16 @@ class RegistroMateriaPrimaController extends Controller
         $Observacion = $request->input("Observacion");
         $Descripcion = $request->input("Descripcion");
         $UnidadMedidaID = $request->input("UnidadMedidaID");
+        $ProveedorID=$request->input("ProveedorID");
         $MateriaPrima->CodigoMP = $CodigoMP;
         $MateriaPrima->NombreMP = $NombreMP;
         $MateriaPrima->Clase = $Clase;
         $MateriaPrima->Observacion = $Observacion;
         $MateriaPrima->Descripcion = $Descripcion;
         $MateriaPrima->UnidadMedidaID = $UnidadMedidaID;
+        $MateriaPrima->ProveedorID = $ProveedorID;
         $MateriaPrima->save();
+      
         return '{"msg":"creado","result":' . $MateriaPrima . '}';
 
         //Validaciones ($Validator)
