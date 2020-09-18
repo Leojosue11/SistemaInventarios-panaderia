@@ -17,11 +17,13 @@ class CreateMateriaPrimaProveedorsTable extends Migration
             $table->bigIncrements('IDMatPrimaProveedor');
             $table->unsignedBigInteger('ProveedorId');
             $table->foreign('ProveedorId')->references('IdProveedor')->on('proveedores');
-            $table->unsignedBigInteger('ProductoId');
-            $table->foreign('ProductoID')->references('IdProducto')->on('productos');
+            $table->unsignedBigInteger('BodegaID');
+            $table->foreign('BodegaID')->references('IdBodega')->on('bodegas');
             $table->bigInteger('CantidadTotal');
             $table->bigInteger('Desperdicio');
             $table->dateTime('FechaCaducidad');
+            $table->unsignedBigInteger('MateriaPrimaID');
+            $table->foreign('MateriaPrimaID')->references('IdRegistroMP')->on('registro_materia_primas');
             $table->unsignedBigInteger('UnidadMedidaID');
             $table->foreign('UnidadMedidaID')->references('IdUnidadMedida')->on('unidad_medidas');
             $table->double('PrecioUnitario', 4, 2)->default(00.00);
