@@ -52,6 +52,14 @@ class MateriaPrimaProveedorController extends Controller
      */
     public function store(Request $request)
     {
+
+        //mensajes personalizados
+
+        $messages=['required'=>'El campo :attribute  es requerido.',
+                    'date_format'=>'El campo :attribute no tiene el formato correcto :format'
+    
+                    ];
+        
         
         //Valiacion
         $validator = Validator::make($request->all(),[
@@ -64,7 +72,7 @@ class MateriaPrimaProveedorController extends Controller
             'PrecioUnitario'=>'required',
             
             
-        ]);
+        ],$messages);
 
 
        
