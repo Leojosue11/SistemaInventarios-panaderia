@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Usuario;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Unique;
 
 class UsuarioController extends Controller
 {
@@ -15,7 +18,17 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        //
+        $Usuarios = DB::table('usuarios')
+            ->join('rols', 'usuarios.RolId', '=', 'rols.IdRol')
+            ->select(
+               'usuarios.NombreUsuario',
+               'usuarios.EmailUsuario',
+               'usuarios.NombreUsuario',
+               'rols.NombreRol',
+               'rols.IdRol'
+            )
+            ->get();
+        return $Usuarios;
     }
 
     /**
@@ -26,7 +39,32 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Usuario::Create($request->all());
+        $Mensajes = [ 'required' => 'El :attribute es requerido',
+                    'unique' => 'El campo :attribute ya existe en la base'
+        ];
+        
+        $validaciones = validator::make($request->all(),[
+            //unique:nombredelatabla
+            'NombreUsuario' => 'required|max:50|unique:usuarios',
+            'EmailUsuario' => 'required|email',
+            'RolId' => 'required',
+            'Password' => 'required'
+        ],$Mensajes);
+
+        if ($validaciones->fails()){
+            $errores = $validaciones->errors();
+
+            $json = array(
+                "status"=>404,
+                "detalles"=> $errores
+                
+            );
+            return json_encode($json, true);
+        }else{
+             $usuarios = Usuario::create($request->all());
+            return '{"msg":"creado","result":' . $usuarios . '}';
+        };
     }
 
     /**
@@ -62,4 +100,5 @@ class UsuarioController extends Controller
     {
         //
     }
+
 }
