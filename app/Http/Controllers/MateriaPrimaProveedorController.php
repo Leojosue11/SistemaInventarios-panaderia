@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\MateriaPrimaProveedor;
+use App\Models\Proveedores;
+use App\Models\Producto;
+use App\Models\UnidadMedidas;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class MateriaPrimaProveedorController extends Controller
 {
@@ -15,7 +20,28 @@ class MateriaPrimaProveedorController extends Controller
      */
     public function index()
     {
-        //
+        $materiaPrimaProveedor = DB::table('materia_prima_proveedors')
+            ->join('proveedores', 'materia_prima_proveedors.ProveedorId', '=', 'proveedores.IdProveedor')
+            ->join('productos', 'materia_prima_proveedors.ProductoID', '=', 'productos.IdProducto')
+            ->join('unidad_medidas', 'materia_prima_proveedors.UnidadMedidaID', '=', 'unidad_medidas.IdUnidadMedida')
+            ->select(
+                'materia_prima_proveedors.CantidadTotal',
+                'materia_prima_proveedors.Desperdicio',
+                'materia_prima_proveedors.FechaCaducidad',
+                'materia_prima_proveedors.PrecioUnitario',
+                'proveedores.IdProveedor',
+                'proveedores.NombreProveedor',
+                'productos.IdProducto',
+                'productos.NombreProducto',
+                'unidad_medidas.IdUnidadMedida',
+                'unidad_medidas.NombreUnidad'
+
+                
+            )
+            ->get();
+        return $materiaPrimaProveedor;
+        //$materiaPrimaProveedor = MateriaPrimaProveedor::all();
+        //return $materiaPrimaProveedor;
     }
 
     /**
@@ -26,8 +52,59 @@ class MateriaPrimaProveedorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        //mensajes personalizados
+
+        $messages=['required'=>'El campo :attribute  es requerido.',
+                    'date_format'=>'El campo :attribute no tiene el formato correcto :format'
+    
+                    ];
+        
+        
+        //Valiacion
+        $validator = Validator::make($request->all(),[
+            'ProveedorId'=>'required',
+            'ProductoID'=>'required',
+            'CantidadTotal' => 'required',
+            'Desperdicio' => 'required',
+            'FechaCaducidad'=>'required|date_format:Y/m/d',
+            'UnidadMedidaID'=>'required',
+            'PrecioUnitario'=>'required',
+            
+            
+        ],$messages);
+
+
+       
+
+        //Si falla la validacion
+
+        if ($validator->fails()) {
+
+            $errores=$validator->errors();
+            
+            $json=array(
+                "status"=>404,
+
+                "detalles"=>$errores
+
+
+            );
+          
+            return json_encode($json,true);
+        }
+        else{
+
+            //si todo sale bien 
+            $MateriaPrimaProv=MateriaPrimaProveedor::create($request->all());
+            return '{"msg":"creado","result":' . $MateriaPrimaProv . '}';
+
+        }
+ 
     }
+
+ 
+    
 
     /**
      * Display the specified resource.

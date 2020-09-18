@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Proveedores;
+use App\Models\TipoProveedor;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 class ProveedoresController extends Controller
 {
     /**
@@ -15,7 +16,9 @@ class ProveedoresController extends Controller
      */
     public function index()
     {
-        //
+
+        $proveedores = Proveedores::all();
+        return $proveedores;
     }
 
     /**

@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class MateriaPrimaProveedor extends Model
 {
-    use HasFactory;
+    protected $fillable = ["ProveedorId","ProductoID","CantidadTotal","Desperdicio","FechaCaducidad","UnidadMedidaID","PrecioUnitario"];
 }
