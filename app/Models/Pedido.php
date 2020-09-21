@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pedido extends Model
 {
-    use HasFactory;
+    protected $primaryKey = 'IdPedido';
+    protected $fillable = ["RegistroMPID","CantidadPedido","DescripcionPedido","BodegaID"];
 }
