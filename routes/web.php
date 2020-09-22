@@ -37,7 +37,7 @@ Route::get('Proveedores',[ProveedoresController::class,'index']);
 Route::get('Productos',[ProductoController::class,'index']);
 Route::get('MateriaPrima', [RegistroMateriaPrimaController::class,'index']);
 //Metodo para traer Materia Prima
-Route::get('MateriaPrima',[RegistroMateriaPrimaController::class,'MateriaPrima']);
+Route::get('ShowMateriaPrima',[RegistroMateriaPrimaController::class,'ShowMateriaPrima']);
 Route::get('MateriaPrimaProveedor', [MateriaPrimaProveedorController::class,'index']);
 
 

@@ -92,7 +92,7 @@ class RegistroMateriaPrimaController extends Controller
     {
         //
     }
-    public function MateriaPrima()
+    public function ShowMateriaPrima()
     {
         $Materia = RegistroMateriaPrima::all();
         return $Materia;
