@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pedido;
+use App\Models\RegistroMateriaPrima;
+use App\Models\Bodega;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class PedidoController extends Controller
 {
@@ -15,7 +19,20 @@ class PedidoController extends Controller
      */
     public function index()
     {
-        //
+        $pedido = DB::table('pedidos')
+        ->join('registro_materia_primas', 'pedidos.RegistroMPID', '=','registro_materia_primas.IdRegistroMP')
+        ->join('bodegas', 'pedidos.BodegaID', '=', 'bodegas.IdBodega')
+        ->select(
+            'pedidos.CantidadPedido',
+            'pedidos.DescripcionPedido',
+            'registro_materia_primas.IdRegistroMP',
+            'registro_materia_primas.NombreMP',
+            'bodegas.IdBodega',
+            'bodegas.NombreBodega'
+            
+        )
+        ->get();
+    return $pedido;
     }
 
     /**
@@ -26,8 +43,54 @@ class PedidoController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        //mensajes personalizados
+        
+        $messages=['required'=>'El campo :attribute  es requerido.'
+            
+            ];
+            
+            //Valiacion
+            
+            $validator = Validator::make($request->all(),[
+                
+                'RegistroMPID'=>'required',
+                'CantidadPedido'=>'required',
+                'DescripcionPedido' => 'required',
+                'BodegaID' => 'required',
+            
+            ],$messages);
+            
+            //Si falla la validacion
+            
+            if ($validator->fails()) {
+                
+                $errores=$validator->errors();
+                
+                $json=array(
+                    
+                    "status"=>404,
+                    "detalles"=>$errores
+                );
+                
+                return json_encode($json,true);
+            }
+            
+            else
+            {
+                
+                //si todo sale bien 
+                
+                $MovimientoMateriaPrima=Pedido::create($request->all());
+                return '{"msg":"creado","result":' . $MovimientoMateriaPrima . '}';
+                //$request->session()->flash('alert-success', 'Pedido Agregado Correctamente');
+            }
+        
+        
+        }
+
+
+
+
 
     /**
      * Display the specified resource.
@@ -37,7 +100,7 @@ class PedidoController extends Controller
      */
     public function show(Pedido $pedido)
     {
-        //
+        
     }
 
     /**
@@ -47,9 +110,22 @@ class PedidoController extends Controller
      * @param  \App\Models\Pedido  $pedido
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pedido $pedido)
+
+     
+    public function update(Request $request, $IdPedido)
     {
-        //
+        //forma 1
+        //$IdPedido->update($request->all());
+        
+        $pedido=Pedido::find($IdPedido);
+        $pedido->RegistroMPID=$request->input("RegistroMPID");
+        $pedido->CantidadPedido=$request->input("CantidadPedido");
+     
+        $pedido->DescripcionPedido=$request->input("DescripcionPedido");
+        $pedido->BodegaID=$request->input("BodegaID");
+        $pedido->save();
+        return response()->json($pedido);
+
     }
 
     /**

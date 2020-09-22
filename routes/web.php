@@ -1,11 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RegistroMateriaPrimaController;
 use App\Http\Controllers\RolController;
+use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ProveedoresController;
 use App\Http\Controllers\UnidadMedidasController;
+use App\Http\Controllers\RegistroMateriaPrimaController;
 use App\Http\Controllers\MateriaPrimaProveedorController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\BodegaController;
@@ -30,6 +31,7 @@ Route::post('MateriaPrima', [RegistroMateriaPrimaController::class, 'store']);
 Route::post('Usuarios', [UsuarioController::class, 'store']);
 Route::post('MateriaPrimaProveedor', [MateriaPrimaProveedorController::class, 'store']);
 Route::get('Bodegas',[BodegaController::class,'index']);
+Route::post('Pedido',[PedidoController::class, 'store']);
 Route::get('Roles', [RolController::class,'index']);
 Route::get('Usuarios', [UsuarioController::class,'index']);
 Route::get('UnidadMateria', [UnidadMedidasController::class,'index']);
@@ -39,8 +41,8 @@ Route::get('MateriaPrima', [RegistroMateriaPrimaController::class,'index']);
 //Metodo para traer Materia Prima
 Route::get('ShowMateriaPrima',[RegistroMateriaPrimaController::class,'ShowMateriaPrima']);
 Route::get('MateriaPrimaProveedor', [MateriaPrimaProveedorController::class,'index']);
-
-
+Route::get('Pedido',[PedidoController::class,'index']);
+Route::put('Pedido/{IdPedido}', [PedidoController::class,'update']);
 
 
 
