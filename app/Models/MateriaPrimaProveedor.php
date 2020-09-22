@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class MateriaPrimaProveedor extends Model
 {
-    protected $fillable = ["ProveedorId","ProductoID","CantidadTotal","Desperdicio","FechaCaducidad","UnidadMedidaID","PrecioUnitario"];
+    protected $fillable = ["ProveedorId","BodegaID","CantidadTotal","Desperdicio","FechaCaducidad","UnidadMedidaID","PrecioUnitario","MateriaPrimaID"];
 }

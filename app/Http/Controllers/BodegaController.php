@@ -15,7 +15,8 @@ class BodegaController extends Controller
      */
     public function index()
     {
-        //
+        $Bodegas = Bodega::all();
+        return $Bodegas;
     }
 
     /**

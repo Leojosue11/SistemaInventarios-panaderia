@@ -7,7 +7,8 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ProveedoresController;
 use App\Http\Controllers\UnidadMedidasController;
 use App\Http\Controllers\MateriaPrimaProveedorController;
-
+use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\BodegaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,12 +29,19 @@ Route::get('/', function () {
 Route::post('MateriaPrima', [RegistroMateriaPrimaController::class, 'store']);
 Route::post('Usuarios', [UsuarioController::class, 'store']);
 Route::post('MateriaPrimaProveedor', [MateriaPrimaProveedorController::class, 'store']);
+Route::get('Bodegas',[BodegaController::class,'index']);
 Route::get('Roles', [RolController::class,'index']);
 Route::get('Usuarios', [UsuarioController::class,'index']);
-Route::get('MateriaPrima', [RegistroMateriaPrimaController::class,'index']);
-Route::get('MateriaPrimaProveedor', [MateriaPrimaProveedorController::class,'index']);
 Route::get('UnidadMateria', [UnidadMedidasController::class,'index']);
-Route::get('ProveedorMateria',[ProveedoresController::class,'index']);
+Route::get('Proveedores',[ProveedoresController::class,'index']);
+Route::get('Productos',[ProductoController::class,'index']);
+Route::get('MateriaPrima', [RegistroMateriaPrimaController::class,'index']);
+//Metodo para traer Materia Prima
+Route::get('MateriaPrima',[RegistroMateriaPrimaController::class,'MateriaPrima']);
+Route::get('MateriaPrimaProveedor', [MateriaPrimaProveedorController::class,'index']);
+
+
+
 
 
 // Route::put('MateriaPrima', [RegistroMateriaPrimaController::class, 'update']);

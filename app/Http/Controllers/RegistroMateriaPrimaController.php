@@ -16,7 +16,7 @@ class RegistroMateriaPrimaController extends Controller
     {
         $materiaPrima = DB::table('registro_materia_primas')
             ->join('unidad_medidas', 'registro_materia_primas.UnidadMedidaID', '=', 'unidad_medidas.IdUnidadMedida')
-            ->join('proveedores','registro_materia_primas.ProveedorID','=','proveedores.IdProveedor')
+            ->join('proveedores', 'registro_materia_primas.ProveedorID', '=', 'proveedores.IdProveedor')
             ->select(
                 'registro_materia_primas.CodigoMP',
                 'registro_materia_primas.NombreMP',
@@ -46,7 +46,7 @@ class RegistroMateriaPrimaController extends Controller
         $Observacion = $request->input("Observacion");
         $Descripcion = $request->input("Descripcion");
         $UnidadMedidaID = $request->input("UnidadMedidaID");
-        $ProveedorID=$request->input("ProveedorID");
+        $ProveedorID = $request->input("ProveedorID");
         $MateriaPrima->CodigoMP = $CodigoMP;
         $MateriaPrima->NombreMP = $NombreMP;
         $MateriaPrima->Clase = $Clase;
@@ -55,7 +55,7 @@ class RegistroMateriaPrimaController extends Controller
         $MateriaPrima->UnidadMedidaID = $UnidadMedidaID;
         $MateriaPrima->ProveedorID = $ProveedorID;
         $MateriaPrima->save();
-      
+
         return '{"msg":"creado","result":' . $MateriaPrima . '}';
 
         //Validaciones ($Validator)
@@ -91,5 +91,10 @@ class RegistroMateriaPrimaController extends Controller
     public function destroy(RegistroMateriaPrima $registroMateriaPrima)
     {
         //
+    }
+    public function MateriaPrima()
+    {
+        $Materia = RegistroMateriaPrima::all();
+        return $Materia;
     }
 }
