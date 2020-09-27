@@ -15,7 +15,8 @@ class SucursalController extends Controller
      */
     public function index()
     {
-        //
+        $sucursal = Sucursal::all();
+        return $sucursal;
     }
 
     /**

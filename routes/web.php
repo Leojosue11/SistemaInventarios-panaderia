@@ -10,6 +10,8 @@ use App\Http\Controllers\RegistroMateriaPrimaController;
 use App\Http\Controllers\MateriaPrimaProveedorController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\BodegaController;
+use App\Http\Controllers\MovimientosMPController;
+use App\Http\Controllers\SucursalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +45,9 @@ Route::get('ShowMateriaPrima',[RegistroMateriaPrimaController::class,'ShowMateri
 Route::get('MateriaPrimaProveedor', [MateriaPrimaProveedorController::class,'index']);
 Route::get('Pedido',[PedidoController::class,'index']);
 Route::put('Pedido/{IdPedido}', [PedidoController::class,'update']);
+Route::get('MovimientoMP',[MovimientosMPController::class,'index']);
+Route::post('MovimientoMP',[MovimientosMPController::class,'store']);
+Route::get('Sucursal', [SucursalController::class,'index']);
 
 
 

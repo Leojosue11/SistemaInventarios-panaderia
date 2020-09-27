@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class MovimientosMP extends Model
 {
-    use HasFactory;
+    protected $fillable = ["MateriaPrimaID","Cantidad","FechaMovimiento","SucursalID"];
 }
