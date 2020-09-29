@@ -41,7 +41,8 @@ class UsuarioController extends Controller
     {
         // Usuario::Create($request->all());
         $Mensajes = [ 'required' => 'El :attribute es requerido',
-                    'unique' => 'El campo :attribute ya existe en la base'
+                    'unique' => 'El campo :attribute ya existe en la base',
+                    'email' => 'El email debe ser valido'
         ];
         
         $validaciones = validator::make($request->all(),[
@@ -55,12 +56,7 @@ class UsuarioController extends Controller
         if ($validaciones->fails()){
             $errores = $validaciones->errors();
 
-            $json = array(
-                "status"=>404,
-                "detalles"=> $errores
-                
-            );
-            return json_encode($json, true);
+            return response()-> json($errores, 402);
         }else{
              $usuarios = Usuario::create($request->all());
             return '{"msg":"creado","result":' . $usuarios . '}';
