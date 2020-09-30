@@ -64,25 +64,18 @@ class MovimientosMPController extends Controller
     if ($validator->fails()) {
                 
         $errores=$validator->errors();
+        return response()-> json($errores, 402);
         
-        $json=array(
-            
-            "status"=>404,
-            "detalles"=>$errores
-        );
-        
-        return json_encode($json,true);
     }
 
     else
     {
         
         //si todo sale bien 
-        
         $MovimientoMateriaPrima=MovimientosMP::create($request->all());
         return '{"msg":"creado","result":' . $MovimientoMateriaPrima . '}';
-        //$request->session()->flash('alert-success', 'Pedido Agregado Correctamente');
-    }
+       
+    };
 
 
     }

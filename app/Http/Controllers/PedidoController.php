@@ -66,13 +66,7 @@ class PedidoController extends Controller
                 
                 $errores=$validator->errors();
                 
-                $json=array(
-                    
-                    "status"=>404,
-                    "detalles"=>$errores
-                );
-                
-                return json_encode($json,true);
+                return response()-> json($errores,402);
             }
             
             else
@@ -82,8 +76,8 @@ class PedidoController extends Controller
                 
                 $MovimientoMateriaPrima=Pedido::create($request->all());
                 return '{"msg":"creado","result":' . $MovimientoMateriaPrima . '}';
-                //$request->session()->flash('alert-success', 'Pedido Agregado Correctamente');
-            }
+                
+            };
         
         
         }

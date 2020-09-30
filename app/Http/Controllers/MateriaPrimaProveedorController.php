@@ -86,21 +86,16 @@ class MateriaPrimaProveedorController extends Controller
 
             $errores = $validator->errors();
 
-            $json = array(
-                "status" => 404,
+            
+            return response()-> json($errores, 402);
 
-                "detalles" => $errores
-
-
-            );
-
-            return json_encode($json, true);
+            
         } else {
 
             //si todo sale bien 
             $MateriaPrimaProv = MateriaPrimaProveedor::create($request->all());
             return '{"msg":"creado","result":' . $MateriaPrimaProv . '}';
-        }
+        };
     }
 
 

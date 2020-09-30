@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class RegistroMateriaPrima extends Model
 {
-    use HasFactory;
+    protected $fillable = ['CodigoMP','NombreMP','Clase','Observacion','ProveedorID','Descripcion','UnidadMedidaID']; 
+    
 }

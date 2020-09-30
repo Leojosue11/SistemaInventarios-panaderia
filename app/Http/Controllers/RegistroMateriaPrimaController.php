@@ -35,44 +35,36 @@ class RegistroMateriaPrimaController extends Controller
 
     public function store(Request $request)
     {
-        //RegidtroMateriaPrima::create($request->all());
+        $Mensaje=[
+            'required' => 'El :attribute es requerido',
+            'unique' => 'El Codigo ya existe en la base'
+                    
 
-        $MateriaPrima = new RegistroMateriaPrima();
+        ];
 
-        //Captura los datos del formulario para Validar
-        $CodigoMP = $request->input("CodigoMP");
-        $NombreMP = $request->input("NombreMP");
-        $Clase = $request->input("Clase");
-        $Observacion = $request->input("Observacion");
-        $Descripcion = $request->input("Descripcion");
-        $UnidadMedidaID = $request->input("UnidadMedidaID");
-        $ProveedorID = $request->input("ProveedorID");
-        $MateriaPrima->CodigoMP = $CodigoMP;
-        $MateriaPrima->NombreMP = $NombreMP;
-        $MateriaPrima->Clase = $Clase;
-        $MateriaPrima->Observacion = $Observacion;
-        $MateriaPrima->Descripcion = $Descripcion;
-        $MateriaPrima->UnidadMedidaID = $UnidadMedidaID;
-        $MateriaPrima->ProveedorID = $ProveedorID;
-        $MateriaPrima->save();
+        $validaciones = validator::make($request->all(),[
+            //unique:nombredelatabla
+            'CodigoMP' => 'required|max:50|unique:registro_materia_primas',
+            'NombreMP' => 'required',
+            'Clase' => 'required',
+            'Observacion' => 'required',
+            'ProveedorID'=>'required',
+            'UnidadMedidaID' => 'required'
+            
 
-        return '{"msg":"creado","result":' . $MateriaPrima . '}';
 
-        //Validaciones ($Validator)
+        ],$Mensaje);
 
-        //Si los datos estan correctos, guarda en la base
-        /* $MateriaPrima->CodigoMP = $datos["CodigoMP"];
-         $MateriaPrima->NombreMP = $datos["NombreMP"];
-         $MateriaPrima->Clase = $datos["Clase"];
-         $MateriaPrima->Observacion = $datos["Observacion"];
-         $MateriaPrima->Descripcion = $datos["Descripcion"];
-         $MateriaPrima->UnidadMedidaId = $datos["UnidadMedidaId"];
-         $MateriaPrima->save();
-         $json = array(
-             "status" => 200,
-             "msj" => "Guardado exitoso"
-         );
-         return json_encode($json, true);*/
+
+        if ($validaciones->fails()){
+            $errores = $validaciones->errors();
+
+            return response()-> json($errores, 402);
+        }else{
+             $registroMateriaPrima = RegistroMateriaPrima::create($request->all());
+            return '{"msg":"creado","result":' . $registroMateriaPrima . '}';
+        };
+
     }
 
 
