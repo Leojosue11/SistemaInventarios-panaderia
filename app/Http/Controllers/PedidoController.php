@@ -122,7 +122,7 @@ class PedidoController extends Controller
      
         $pedido->DescripcionPedido=$request->input("DescripcionPedido");
         $pedido->BodegaID=$request->input("BodegaID");
-        $pedido->BodegaID=$request->input("SucursalID");
+        $pedido->SucursalID=$request->input("SucursalID");
         $pedido->save();
         return response()->json($pedido);
 
