@@ -21,7 +21,7 @@ class CreateMateriaPrimaProveedorsTable extends Migration
             $table->foreign('BodegaID')->references('IdBodega')->on('bodegas');
             $table->bigInteger('CantidadTotal');
             $table->bigInteger('Desperdicio');
-            $table->date('FechaCaducidad');
+            $table->string('FechaCaducidad');
             $table->unsignedBigInteger('MateriaPrimaID');
             $table->foreign('MateriaPrimaID')->references('IdRegistroMP')->on('registro_materia_primas');
             $table->unsignedBigInteger('UnidadMedidaID');

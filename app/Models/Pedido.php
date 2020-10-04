@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Pedido extends Model
 {
     protected $primaryKey = 'IdPedido';
-    protected $fillable = ["RegistroMPID","CantidadPedido","DescripcionPedido","BodegaID"];
+    protected $fillable = ["RegistroMPID","CantidadPedido","DescripcionPedido","BodegaID","SucursalID"];
 }

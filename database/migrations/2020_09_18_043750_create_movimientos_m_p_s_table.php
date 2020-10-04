@@ -18,7 +18,7 @@ class CreateMovimientosMPSTable extends Migration
             $table->unsignedBigInteger('MateriaPrimaID');
             $table->foreign('MateriaPrimaID')->references('IdRegistroMP')->on('registro_materia_primas');
             $table->bigInteger('Cantidad');
-            $table->dateTime('FechaMovimiento');
+            $table->string('FechaMovimiento');
             $table->unsignedBigInteger('SucursalID');
             $table->foreign('SucursalID')->references('IdSucursal')->on('sucursals');
             $table->timestamps();

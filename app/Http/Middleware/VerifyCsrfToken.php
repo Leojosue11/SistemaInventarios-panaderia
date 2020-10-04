@@ -22,7 +22,8 @@ class VerifyCsrfToken extends Middleware
         'http://localhost/PanaderiaBG/public/Bodegas',
         'http://localhost/PanaderiaBG/public/ShowMateriaPrima',
         'http://localhost/PanaderiaBG/public/Pedido',
-        'http://localhost/PanaderiaBG/public/Pedido/*'
+        'http://localhost/PanaderiaBG/public/Pedido/*',
+        'http://localhost/PanaderiaBG/public/Sucursal/'
 
     ];
 }

@@ -21,6 +21,8 @@ class CreatePedidosTable extends Migration
             $table->string('DescripcionPedido', 50);
             $table->unsignedbigInteger('BodegaID');
             $table->foreign('BodegaID')->references('IdBodega')->on('bodegas');
+            $table->unsignedbigInteger('SucursalID');
+            $table->foreign('SucursalID')->references('IdSucursal')->on('sucursals');
             $table->timestamps();
         });
     }

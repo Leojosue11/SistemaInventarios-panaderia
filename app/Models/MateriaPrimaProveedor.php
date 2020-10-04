@@ -4,8 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class MateriaPrimaProveedor extends Model
 {
-    protected $fillable = ["ProveedorId","BodegaID","CantidadTotal","Desperdicio","FechaCaducidad","UnidadMedidaID","PrecioUnitario","MateriaPrimaID"];
+    //use HasFactory;
+
+   
+ 
+
+    //setea el formato de fecha
+    public function setFechaCaducidadAttribute( $value ) {
+        $this->attributes['FechaCaducidad'] = (new Carbon($value))->format('d-m-Y');
+      }  
+
+    protected $fillable = ["ProveedorId","BodegaID","CantidadTotal","Desperdicio","FechaCaducidad","UnidadMedidaID","PrecioUnitario","MateriaPrimaID", "created_at"];
+    
+
 }

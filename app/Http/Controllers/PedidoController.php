@@ -22,13 +22,16 @@ class PedidoController extends Controller
         $pedido = DB::table('pedidos')
         ->join('registro_materia_primas', 'pedidos.RegistroMPID', '=','registro_materia_primas.IdRegistroMP')
         ->join('bodegas', 'pedidos.BodegaID', '=', 'bodegas.IdBodega')
+        ->join('sucursals', 'pedidos.SucursalID', '=', 'sucursals.IdSucursal')
         ->select(
             'pedidos.CantidadPedido',
             'pedidos.DescripcionPedido',
             'registro_materia_primas.IdRegistroMP',
             'registro_materia_primas.NombreMP',
             'bodegas.IdBodega',
-            'bodegas.NombreBodega'
+            'bodegas.NombreBodega',
+            'sucursals.IdSucursal',
+            'sucursals.NombreSucursal',
             
         )
         ->get();
@@ -57,6 +60,7 @@ class PedidoController extends Controller
                 'CantidadPedido'=>'required',
                 'DescripcionPedido' => 'required',
                 'BodegaID' => 'required',
+                'SucursalID'=>'required'
             
             ],$messages);
             
@@ -117,6 +121,7 @@ class PedidoController extends Controller
      
         $pedido->DescripcionPedido=$request->input("DescripcionPedido");
         $pedido->BodegaID=$request->input("BodegaID");
+        $pedido->BodegaID=$request->input("SucursalID");
         $pedido->save();
         return response()->json($pedido);
 

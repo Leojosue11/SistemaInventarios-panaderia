@@ -58,7 +58,7 @@ class MateriaPrimaProveedorController extends Controller
 
         $messages = [
             'required' => 'El campo :attribute  es requerido.',
-            'date_format' => 'El campo :attribute no tiene el formato correcto :format'
+            //'date_format' => 'El campo :attribute no tiene el formato correcto :format'
 
         ];
 
@@ -70,7 +70,7 @@ class MateriaPrimaProveedorController extends Controller
             'MateriaPrimaID' => 'required',
             'CantidadTotal' => 'required',
             'Desperdicio' => 'required',
-            'FechaCaducidad' => 'required',
+            'FechaCaducidad' => 'required',//|date_format:d-m-Y
             'UnidadMedidaID' => 'required',
             'PrecioUnitario' => 'required',
 

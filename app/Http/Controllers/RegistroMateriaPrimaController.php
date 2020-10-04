@@ -37,7 +37,7 @@ class RegistroMateriaPrimaController extends Controller
     {
         $Mensaje=[
             'required' => 'El :attribute es requerido',
-            'unique' => 'El Codigo ya existe en la base'
+            'unique' => 'El registro ya existe en la base'
                     
 
         ];
@@ -45,7 +45,7 @@ class RegistroMateriaPrimaController extends Controller
         $validaciones = validator::make($request->all(),[
             //unique:nombredelatabla
             'CodigoMP' => 'required|max:50|unique:registro_materia_primas',
-            'NombreMP' => 'required',
+            'NombreMP' => 'required|unique:registro_materia_primas',
             'Clase' => 'required',
             'Observacion' => 'required',
             'ProveedorID'=>'required',
