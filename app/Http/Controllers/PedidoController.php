@@ -24,6 +24,7 @@ class PedidoController extends Controller
         ->join('bodegas', 'pedidos.BodegaID', '=', 'bodegas.IdBodega')
         ->join('sucursals', 'pedidos.SucursalID', '=', 'sucursals.IdSucursal')
         ->select(
+            'pedidos.IdPedido',
             'pedidos.CantidadPedido',
             'pedidos.DescripcionPedido',
             'registro_materia_primas.IdRegistroMP',
