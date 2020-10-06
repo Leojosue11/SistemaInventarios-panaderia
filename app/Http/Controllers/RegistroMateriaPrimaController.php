@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RegistroMateriaPrima;
 use App\Models\UnidadMedidas;
+use App\Models\inventario;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -62,6 +63,7 @@ class RegistroMateriaPrimaController extends Controller
             return response()-> json($errores, 402);
         }else{
              $registroMateriaPrima = RegistroMateriaPrima::create($request->all());
+
             return '{"msg":"creado","result":' . $registroMateriaPrima . '}';
         };
 

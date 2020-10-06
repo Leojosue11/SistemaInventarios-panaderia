@@ -18,8 +18,6 @@ class CreateInventariosTable extends Migration
             $table->unsignedbigInteger('RegistroMPID');
             $table->foreign('RegistroMPID')->references('IdRegistroMP')->on('registro_materia_primas');
             $table->bigInteger('Disponible');
-            $table->unsignedbigInteger('SucursalID');
-            $table->foreign('SucursalID')->references('IdSucursal')->on('sucursals');
             $table->unsignedbigInteger('BodegaID');
             $table->foreign('BodegaID')->references('IdBodega')->on('bodegas');
             $table->date('FechaIngreso');

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Proveedores;
 use Illuminate\Http\Request;
 use App\Models\UnidadMedidas;
+use App\Models\MovimientosMP;
+use App\Models\inventario;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\RegistroMateriaPrima;
@@ -77,29 +79,39 @@ class MateriaPrimaProveedorController extends Controller
 
         ], $messages);
 
-
-
-
         //Si falla la validacion
-
         if ($validator->fails()) {
 
-            $errores = $validator->errors();
-
-            
+            $errores = $validator->errors(); 
             return response()-> json($errores, 402);
-
-            
+           
         } else {
 
-            //si todo sale bien 
-            $MateriaPrimaProv = MateriaPrimaProveedor::create($request->all());
+            //Guarda Entrada de Materia Prima
+             $MateriaPrimaProv = MateriaPrimaProveedor::create($request->all());
+           
+                // Sino existe un registro en bodega de la Materia Prima lo crea, sino lo actualiza
+                $Inventario = inventario::where('RegistroMPID',$MateriaPrimaProv["MateriaPrimaID"] )->first();
+                if ($Inventario == false)
+                {
+                    Inventario::create([
+                        "RegistroMPID"=>$MateriaPrimaProv["MateriaPrimaID"],
+                        "BodegaID"=>$MateriaPrimaProv["BodegaID"], 
+                        "Disponible"=>$MateriaPrimaProv["CantidadTotal"],
+                        "FechaIngreso"=> today()
+                     ]);
+                }else{
+                    //Actualiza Disponibilidad de Bodega
+                    $Cantidad =  $this->Calcular_Disponibilidad($Inventario["Disponible"],$MateriaPrimaProv["CantidadTotal"]);
+                    
+                    DB::table('inventarios')->where('RegistroMPID',$MateriaPrimaProv["MateriaPrimaID"])
+                    ->update([
+                        'Disponible' => $Cantidad]);
+                }
+       
             return '{"msg":"creado","result":' . $MateriaPrimaProv . '}';
         };
     }
-
-
-
 
     /**
      * Display the specified resource.
@@ -133,5 +145,10 @@ class MateriaPrimaProveedorController extends Controller
     public function destroy(MateriaPrimaProveedor $materiaPrimaProveedor)
     {
         //
+    }
+    public function Calcular_Disponibilidad($CantidadInv, $CantidadEntrada){
+        $Disponible = 0;
+        $Disponible = ($CantidadInv + $CantidadEntrada);
+        return $Disponible;
     }
 }

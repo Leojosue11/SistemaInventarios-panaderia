@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class inventario extends Model
 {
-    use HasFactory;
+    protected $fillable =['RegistroMPID','Disponible','BodegaID','FechaIngreso'];
 }
