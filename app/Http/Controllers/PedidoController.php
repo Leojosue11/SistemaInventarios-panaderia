@@ -79,13 +79,17 @@ class PedidoController extends Controller
 
             if ($Inventario == false) 
             {
-                $Msj = "No puede hacer movimiento porque no hay entradas de Materia Prima";
-                return response()->json($Msj, 402);
+                $message=array('No puede hacer movimiento porque no hay entradas de Materia Prima');
+                return response()->json([
+                     'msg'=>$message,
+                 ],402);
 
             } elseif($request["CantidadPedido"] > $Inventario["Disponible"]) 
             {
-                    $Msj = "No hay disponibilidad suficiente en Inventario. Disponibilidad: " . $Inventario["Disponible"];
-                    return response()->json($Msj, 402);
+                $message=array('No hay disponibilidad suficiente en Inventario. Disponibilidad:'.$Inventario["Disponible"]);
+                return response()->json([
+                     'msg'=>$message,
+                 ],402);
             }
 
              //Guarda los Movimientos a las Sucursales
