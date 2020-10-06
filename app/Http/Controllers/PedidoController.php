@@ -35,6 +35,7 @@ class PedidoController extends Controller
                 'sucursals.NombreSucursal',
 
             )
+            ->orderByDesc("Idpedido")
             ->get();
         return $pedido;
     }
@@ -65,46 +66,49 @@ class PedidoController extends Controller
 
         //Si falla la validacion
 
-        if ($validator->fails()) {
-
+        if ($validator->fails()) 
+        {
             $errores = $validator->errors();
 
             return response()->json($errores, 402);
-        } else {
-
-            //Guarda los Movimientos a las Sucursales
-            $MovimientoMateriaPrima = Pedido::create($request->all());
-            //Crea un registro en el historial de Movimientos
-            MovimientosMP::Create([
-                'MateriaPrimaID' => $MovimientoMateriaPrima["RegistroMPID"],
-                'Cantidad' => $MovimientoMateriaPrima["CantidadPedido"],
-                'FechaMovimiento' => today(),
-                'SucursalID' => $MovimientoMateriaPrima["SucursalID"]
-            ]);
+        } 
 
             // Sino existe un registro en bodega de la Materia Prima lo crea, sino lo actualiza
-            $Inventario = inventario::where('RegistroMPID', $MovimientoMateriaPrima["RegistroMPID"])->first();
-            if ($Inventario == false) {
+            // $Inventario = inventario::where('RegistroMPID', $MovimientoMateriaPrima["RegistroMPID"])->first();
+            $Inventario = inventario::where('RegistroMPID', $request["RegistroMPID"])->first();
+
+            if ($Inventario == false) 
+            {
                 $Msj = "No puede hacer movimiento porque no hay entradas de Materia Prima";
                 return response()->json($Msj, 402);
-            } else {
-                if ($MovimientoMateriaPrima["CantidadPedido"] > $Inventario["Disponible"]) {
+
+            } elseif($request["CantidadPedido"] > $Inventario["Disponible"]) 
+            {
                     $Msj = "No hay disponibilidad suficiente en Inventario. Disponibilidad: " . $Inventario["Disponible"];
                     return response()->json($Msj, 402);
-                }
-                //Hace la Resta del inventario - Salida 
-                $Disponible = 0;
-                $Disponible =  $this->Restar_Disponibilidad($Inventario["Disponible"], $MovimientoMateriaPrima["CantidadPedido"]);
-
-                //Actualiza Disponibilidad
-                DB::table('inventarios')->where('RegistroMPID', $MovimientoMateriaPrima["RegistroMPID"])
-                    ->update([
-                        'Disponible' => $Disponible
-                    ]);
             }
 
+             //Guarda los Movimientos a las Sucursales
+             $MovimientoMateriaPrima = Pedido::create($request->all());
+             //Crea un registro en el historial de Movimientos
+             MovimientosMP::Create([
+                 'MateriaPrimaID' => $MovimientoMateriaPrima["RegistroMPID"],
+                 'Cantidad' => $MovimientoMateriaPrima["CantidadPedido"],
+                 'FechaMovimiento' => today(),
+                 'SucursalID' => $MovimientoMateriaPrima["SucursalID"]
+             ]);
+            //Hace la Resta del inventario - Salida 
+            $Disponible = 0;
+            $Disponible =  $this->Restar_Disponibilidad($Inventario["Disponible"], $MovimientoMateriaPrima["CantidadPedido"]);
+
+            //Actualiza Disponibilidad
+            DB::table('inventarios')->where('RegistroMPID', $MovimientoMateriaPrima["RegistroMPID"])
+                ->update([
+                    'Disponible' => $Disponible
+                ]);
+
             return '{"msg":"creado","result":' . $MovimientoMateriaPrima . '}';
-        };
+       
     }
 
     /**
@@ -158,10 +162,5 @@ class PedidoController extends Controller
         $Cantidad = ($CantidadInv - $SalidaBod);
         return $Cantidad;
     }
-    public function Sumar_Retorno($CantidadInv, $Salida)
-    {
-        $Disponible = 0;
-        $Disponible = ($CantidadInv + $Salida);
-        return $Disponible;
-    }
+ 
 }

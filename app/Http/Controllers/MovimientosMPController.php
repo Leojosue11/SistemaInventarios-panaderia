@@ -28,11 +28,8 @@ class MovimientosMPController extends Controller
             'registro_materia_primas.NombreMP',
             'sucursals.IdSucursal',
             'sucursals.NombreSucursal',
-
-
-
-
         )
+        ->orderByDesc("IdMovimiento")
         ->get();
         return $movimientosMateria;
     }

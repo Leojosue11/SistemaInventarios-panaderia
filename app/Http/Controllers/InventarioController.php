@@ -15,7 +15,8 @@ class InventarioController extends Controller
      */
     public function index()
     {
-        //
+        $inventario = inventario::all();
+        return $inventario;
     }
 
     /**

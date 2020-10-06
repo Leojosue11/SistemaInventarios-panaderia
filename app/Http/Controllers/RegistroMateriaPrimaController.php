@@ -29,6 +29,7 @@ class RegistroMateriaPrimaController extends Controller
                 'proveedores.NombreProveedor',
                 'proveedores.IdProveedor'
             )
+            ->orderByDesc("IdRegistroMP")
             ->get();
         return $materiaPrima;
     }

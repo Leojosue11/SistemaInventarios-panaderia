@@ -42,6 +42,7 @@ class MateriaPrimaProveedorController extends Controller
                 'bodegas.IdBodega'
 
             )
+            ->orderByDesc("IDMatPrimaProveedor")
             ->get();
         return $materiaPrimaProveedor;
 
