@@ -27,7 +27,7 @@ class UsuarioController extends Controller
                'rols.NombreRol',
                'rols.IdRol'
             )
-            ->orderByDesc("id")
+          
             ->get();
         return $Usuarios;
     }
