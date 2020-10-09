@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Models\RegistroMateriaPrima;
 use App\Models\MateriaPrimaProveedor;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class MateriaPrimaProveedorController extends Controller
 {
@@ -44,7 +45,6 @@ class MateriaPrimaProveedorController extends Controller
             ->orderByDesc("IDMatPrimaProveedor")
             ->get();
         return $materiaPrimaProveedor;
-
     }
 
     /**
@@ -72,7 +72,7 @@ class MateriaPrimaProveedorController extends Controller
             'MateriaPrimaID' => 'required',
             'CantidadTotal' => 'required',
             'Desperdicio' => 'required',
-            'FechaCaducidad' => 'required',//|date_format:d-m-Y
+            'FechaCaducidad' => 'required', //|date_format:d-m-Y
             'UnidadMedidaID' => 'required',
             'PrecioUnitario' => 'required',
 
@@ -82,35 +82,58 @@ class MateriaPrimaProveedorController extends Controller
         //Si falla la validacion
         if ($validator->fails()) {
 
-            $errores = $validator->errors(); 
-            return response()-> json($errores, 402);
-           
-        } else {
+            $errores = $validator->errors();
+            return response()->json($errores, 402);
+        }
 
-            //Guarda Entrada de Materia Prima
-             $MateriaPrimaProv = MateriaPrimaProveedor::create($request->all());
-           
-                // Sino existe un registro en bodega de la Materia Prima lo crea, sino lo actualiza
-                $Inventario = inventario::where('RegistroMPID',$MateriaPrimaProv["MateriaPrimaID"] )->first();
-                if ($Inventario == false)
-                {
-                    Inventario::create([
-                        "RegistroMPID"=>$MateriaPrimaProv["MateriaPrimaID"],
-                        "BodegaID"=>$MateriaPrimaProv["BodegaID"], 
-                        "Disponible"=>$MateriaPrimaProv["CantidadTotal"],
-                        "FechaIngreso"=> today()
-                     ]);
-                }else{
-                    //Actualiza Disponibilidad de Bodega
-                    $Cantidad =  $this->Calcular_Disponibilidad($Inventario["Disponible"],$MateriaPrimaProv["CantidadTotal"]);
-                    
-                    DB::table('inventarios')->where('RegistroMPID',$MateriaPrimaProv["MateriaPrimaID"])
-                    ->update([
-                        'Disponible' => $Cantidad]);
-                }
-       
-            return '{"msg":"creado","result":' . $MateriaPrimaProv . '}';
-        };
+
+        //Valida que la fecha no sea inferior a la fecha de hoy
+        $date = Carbon::now();
+
+        $date = $date->format('Y-m-d');
+
+        $fecha = $request['FechaCaducidad'];
+        //$fecha=Carbon::yesterday();
+
+
+        if ($fecha <= $date) {
+
+            $message = array('Fecha de Caducidad invalida');
+            return response()->json([
+                'message' => $message,
+            ], 402);
+        }
+
+
+
+
+        //Guarda Entrada de Materia Prima
+        $MateriaPrimaProv = MateriaPrimaProveedor::create($request->all());
+
+
+
+        // Sino existe un registro en bodega de la Materia Prima lo crea, sino lo actualiza
+        $Inventario = inventario::where('RegistroMPID', $MateriaPrimaProv["MateriaPrimaID"])->first();
+
+
+        if ($Inventario == false) {
+            Inventario::create([
+                "RegistroMPID" => $MateriaPrimaProv["MateriaPrimaID"],
+                "BodegaID" => $MateriaPrimaProv["BodegaID"],
+                "Disponible" => $MateriaPrimaProv["CantidadTotal"],
+                "FechaIngreso" => today()
+            ]);
+        } else {
+            //Actualiza Disponibilidad de Bodega
+            $Cantidad =  $this->Calcular_Disponibilidad($Inventario["Disponible"], $MateriaPrimaProv["CantidadTotal"]);
+
+            DB::table('inventarios')->where('RegistroMPID', $MateriaPrimaProv["MateriaPrimaID"])
+                ->update([
+                    'Disponible' => $Cantidad
+                ]);
+        }
+
+        return '{"msg":"creado","result":' . $MateriaPrimaProv . '}';
     }
 
     /**
@@ -146,7 +169,8 @@ class MateriaPrimaProveedorController extends Controller
     {
         //
     }
-    public function Calcular_Disponibilidad($CantidadInv, $CantidadEntrada){
+    public function Calcular_Disponibilidad($CantidadInv, $CantidadEntrada)
+    {
         $Disponible = 0;
         $Disponible = ($CantidadInv + $CantidadEntrada);
         return $Disponible;
