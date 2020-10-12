@@ -41,7 +41,6 @@ class MateriaPrimaProveedorController extends Controller
                 'unidad_medidas.NombreUnidad',
                 'bodegas.NombreBodega',
                 'bodegas.IdBodega'
-
             )
             ->orderByDesc("IDMatPrimaProveedor")
             ->get();
