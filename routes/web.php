@@ -38,11 +38,13 @@ Route::get('Roles', [RolController::class,'index']);
 Route::get('Usuarios', [UsuarioController::class,'index']);
 Route::get('UnidadMateria', [UnidadMedidasController::class,'index']);
 Route::get('Proveedores',[ProveedoresController::class,'index']);
+
 Route::get('Productos',[ProductoController::class,'index']);
 Route::get('MateriaPrima', [RegistroMateriaPrimaController::class,'index']);
 //Metodo para traer Materia Prima
 Route::get('ShowMateriaPrima',[RegistroMateriaPrimaController::class,'ShowMateriaPrima']);
 Route::get('MateriaPrimaProveedor', [MateriaPrimaProveedorController::class,'index']);
+Route::put('MateriaPrimaProveedor/{IDMatPrimaProveedor}', [MateriaPrimaProveedorController::class,'update']);
 Route::get('Pedido',[PedidoController::class,'index']);
 Route::post('Pedido/{IdPedido}', [PedidoController::class,'update']);
 Route::get('MovimientoMP',[MovimientosMPController::class,'index']);

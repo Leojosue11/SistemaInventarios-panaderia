@@ -19,6 +19,7 @@ class VerifyCsrfToken extends Middleware
         'http://localhost/PanaderiaBG/public/Roles',
         'http://localhost/PanaderiaBG/public/Proveedores',
         'http://localhost/PanaderiaBG/public/MateriaPrimaProveedor',
+        'http://localhost/PanaderiaBG/public/MateriaPrimaProveedor/*',
         'http://localhost/PanaderiaBG/public/Bodegas',
         'http://localhost/PanaderiaBG/public/ShowMateriaPrima',
         'http://localhost/PanaderiaBG/public/Pedido',

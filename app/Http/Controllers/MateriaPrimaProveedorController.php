@@ -155,9 +155,38 @@ class MateriaPrimaProveedorController extends Controller
      * @param  \App\Models\MateriaPrimaProveedor  $materiaPrimaProveedor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MateriaPrimaProveedor $materiaPrimaProveedor)
+    public function update(Request $request, $IDMatPrimaProveedor)
     {
-        //
+         //Valida que la fecha no sea inferior a la fecha de hoy
+         $date = Carbon::now();
+
+         $date = $date->format('Y-m-d');
+ 
+         $fecha = $request['FechaCaducidad'];
+         //$fecha=Carbon::yesterday();
+ 
+ 
+         if ($fecha <= $date) {
+ 
+             $message = array('Fecha de Caducidad invalida');
+             return response()->json([
+                 'message' => $message,
+             ], 402);
+         }
+ 
+
+        $materiaPP = MateriaPrimaProveedor::find($IDMatPrimaProveedor);
+        $materiaPP->ProveedorId = $request->input("ProveedorId");
+        $materiaPP->BodegaID = $request->input("BodegaID");
+        $materiaPP->CantidadTotal = $request->input("CantidadTotal");
+        $materiaPP->Desperdicio = $request->input("Desperdicio");
+        $materiaPP->FechaCaducidad = $request->input("FechaCaducidad");
+        $materiaPP->MateriaPrimaID = $request->input("MateriaPrimaID");
+        $materiaPP->UnidadMedidaID = $request->input("UnidadMedidaID");
+        $materiaPP->PrecioUnitario = $request->input("PrecioUnitario");
+        $materiaPP->save();
+        return response()->json($materiaPP);
+        
     }
 
     /**
