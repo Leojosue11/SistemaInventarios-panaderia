@@ -44,7 +44,7 @@ Route::get('MateriaPrima', [RegistroMateriaPrimaController::class,'index']);
 //Metodo para traer Materia Prima
 Route::get('ShowMateriaPrima',[RegistroMateriaPrimaController::class,'ShowMateriaPrima']);
 Route::get('MateriaPrimaProveedor', [MateriaPrimaProveedorController::class,'index']);
-Route::put('MateriaPrimaProveedor/{IDMatPrimaProveedor}', [MateriaPrimaProveedorController::class,'update']);
+Route::post('MateriaPrimaProveedor/{IDMatPrimaProveedor}', [MateriaPrimaProveedorController::class,'update']);
 Route::get('Pedido',[PedidoController::class,'index']);
 Route::post('Pedido/{IdPedido}', [PedidoController::class,'update']);
 Route::get('MovimientoMP',[MovimientosMPController::class,'index']);

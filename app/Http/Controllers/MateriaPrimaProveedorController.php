@@ -165,13 +165,13 @@ class MateriaPrimaProveedorController extends Controller
          //$fecha=Carbon::yesterday();
  
  
-         if ($fecha <= $date) {
+        //  if ($fecha <= $date) {
  
-             $message = array('Fecha de Caducidad invalida');
-             return response()->json([
-                 'message' => $message,
-             ], 402);
-         }
+        //      $message = array('Fecha de Caducidad invalida');
+        //      return response()->json([
+        //          'message' => $message,
+        //      ], 402);
+        //  }
  
 
         $materiaPP = MateriaPrimaProveedor::find($IDMatPrimaProveedor);
