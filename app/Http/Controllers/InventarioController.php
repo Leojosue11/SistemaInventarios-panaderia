@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\inventario;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 class InventarioController extends Controller
 {
     /**
@@ -15,8 +15,18 @@ class InventarioController extends Controller
      */
     public function index()
     {
-        $inventario = inventario::all();
-        return $inventario;
+        $pedido = DB::table('inventarios')
+            ->join('registro_materia_primas', 'inventarios.RegistroMPID', '=', 'registro_materia_primas.IdRegistroMP')
+            ->join('bodegas', 'inventarios.BodegaID', '=', 'bodegas.IdBodega')
+            ->select(
+                'inventarios.IdInventario',
+                'registro_materia_primas.NombreMP',
+                'inventarios.Disponible',
+                'bodegas.NombreBodega',
+                'inventarios.FechaIngreso',
+            )
+            ->get();
+        return $pedido;
     }
 
     /**
