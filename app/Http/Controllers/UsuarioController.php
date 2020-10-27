@@ -41,7 +41,7 @@ class UsuarioController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     //Guarda el usuario
+    //Guarda el usuario
     public function store(Request $request)
     {
 
@@ -52,7 +52,7 @@ class UsuarioController extends Controller
         ];
 
         $validaciones = validator::make($request->all(), [
-        
+
             'name' => 'required|max:50|unique:users',
             'email' => 'required',
             'RolId' => 'required',
@@ -63,46 +63,50 @@ class UsuarioController extends Controller
             $errores = $validaciones->errors();
             return response()->json($errores, 402);
         } else {
-            $user = User::create(['name' => $request->name,
-            'email' => $request->email,
-            'RolId'=>$request->RolId,
-            'password' => bcrypt($request->password)]);
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'RolId' => $request->RolId,
+                'password' => bcrypt($request->password)
+            ]);
             $token = $user->createToken('Personal Acces Token')->accessToken;
-            return response()->json(['token'=>$token]);
+            return response()->json(['token' => $token]);
         }
     }
 
 
     public function login(Request $request)
     {
-       
+
         $request->validate([
             'name' => 'required',
             'password' => 'required'
         ]);
- 
+
         $credentials = request(['name', 'password']);
- 
-        if(!Auth::attempt($credentials)){
+
+        if (!Auth::attempt($credentials)) {
             return response()->json([
-                'message'=> 'Invalid email or password'
+                'message' => 'Invalid email or password'
             ], 401);
         }
- 
+
         $user = $request->user();
- 
+
         $token = $user->createToken('Access Token');
- 
+
         $user->access_token = $token->accessToken;
- 
+
         return response()->json([
-            "user"=>$user,'success' => true,
+            "user" => $user, 'success' => true,
         ], 200);
     }
 
-   
-     public function logout(Request $request)
+
+    /*public function logout(Request $request)
     {
+
+       
         if(Auth::user()){
         //$request->user()->token()->revoke();
         $request->user()->token()->revoke();
@@ -122,6 +126,33 @@ class UsuarioController extends Controller
               ]);
 
         }
+    }*/
+//FUNCIONAL EXCEPTO EL REVOKE
+    /*public function logout() {
+        $accessToken = Auth::user()->token();
+        DB::table('oauth_refresh_tokens')
+            ->where('access_token_id', $accessToken->id)
+            ->update([
+                'revoked' => true
+            ]);
+
+        $accessToken->revoke();
+        return response()->json(null, 204);
+    }*/
+
+    public function logout(Request $request)
+    {
+        $user = $request->user();
+
+        foreach ($user->tokens as $token) {
+            $token->revoke();
+        } return response()->json([
+            'success' => true,
+
+            'message' => 'Session Cerrada'
+        ]);
+        Auth::logout();
+
     }
 
 
