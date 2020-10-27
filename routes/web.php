@@ -52,6 +52,8 @@ Route::get('MovimientoMP',[MovimientosMPController::class,'index']);
 Route::post('MovimientoMP',[MovimientosMPController::class,'store']);
 Route::get('Sucursal', [SucursalController::class,'index']);
 Route::get('Inventario', [InventarioController::class,'index']);
+Route::post('login', [UsuarioController::class,'login']);
+Route::get('logout', [UsuarioController::class,'logout']);
 
 
 
