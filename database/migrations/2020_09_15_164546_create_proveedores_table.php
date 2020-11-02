@@ -15,10 +15,17 @@ class CreateProveedoresTable extends Migration
     {
         Schema::create('proveedores', function (Blueprint $table) {
             $table->bigIncrements('IdProveedor');
-            $table->string('CodigoProveedor', 15);
+            $table->string('CodigoProveedor', 15)->unique();
+            $table->string('NombreProveedor', 50)->unique();
             $table->unsignedBigInteger('TipoProveedorID');
             $table->foreign('TipoProveedorID')->references('IdTipo')->on('tipo_proveedors');
-            $table->string('NombreProveedor', 50);
+            $table->string('TelefonoProveedor', 8);
+            $table->string('MovilProveedor', 8);
+            $table->string('EmailProveedor', 25);
+            $table->string('FaxProveedor', 9)->unique()->nullable();
+            $table->string('NITPRoveedor', 20)->unique()->nullable();
+            $table->string('NIDFiscal', 25)->unique()->nullable();
+            $table->string('TituloProveedor', 50)->unique();
             $table->timestamps();
         });
     }
