@@ -22,10 +22,10 @@ class CreateProveedoresTable extends Migration
             $table->string('TelefonoProveedor', 8);
             $table->string('MovilProveedor', 8);
             $table->string('EmailProveedor', 25);
-            $table->string('FaxProveedor', 9)->unique()->nullable();
+            $table->string('FaxProveedor', 9)->nullable();
             $table->string('NITPRoveedor', 20)->unique()->nullable();
             $table->string('NIDFiscal', 25)->unique()->nullable();
-            $table->string('TituloProveedor', 50)->unique();
+            $table->string('TituloProveedor', 50)->nullable();
             $table->timestamps();
         });
     }
