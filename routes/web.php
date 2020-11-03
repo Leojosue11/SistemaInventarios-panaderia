@@ -38,7 +38,10 @@ Route::post('Pedido',[PedidoController::class, 'store']);
 Route::get('Roles', [RolController::class,'index']);
 Route::get('Usuarios', [UsuarioController::class,'index']);
 Route::get('UnidadMateria', [UnidadMedidasController::class,'index']);
+//Proveedores
 Route::get('Proveedores',[ProveedoresController::class,'index']);
+Route::post('Proveedores',[ProveedoresController::class,'store']);
+Route::get('ListaProveedores',[ProveedoresController::class,'show']);
 
 Route::get('Productos',[ProductoController::class,'index']);
 Route::get('MateriaPrima', [RegistroMateriaPrimaController::class,'index']);
