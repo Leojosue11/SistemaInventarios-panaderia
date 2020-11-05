@@ -78,16 +78,32 @@ class UsuarioController extends Controller
     public function login(Request $request)
     {
 
-        $request->validate([
+       /* $request->validate([
             'name' => 'required',
             'password' => 'required'
-        ]);
+
+
+        ]);*/
+
+        $Mensajes = [
+            'required' => 'El :attribute es requerido',
+           
+        ];
+        $msj = validator::make($request->all(), [
+            'name' => 'required',
+            'password' => 'required'
+        ], $Mensajes);
+
+        if ($msj->fails()) {
+            $errores = $msj->errors();
+            return response()->json($errores, 401);
+        }
 
         $credentials = request(['name', 'password']);
 
         if (!Auth::attempt($credentials)) {
             return response()->json([
-                'message' => 'Invalid email or password'
+                'message' => 'Usuario o Contraseña invalida'
             ], 401);
         }
 
@@ -103,42 +119,7 @@ class UsuarioController extends Controller
     }
 
 
-    /*public function logout(Request $request)
-    {
-
-       
-        if(Auth::user()){
-        //$request->user()->token()->revoke();
-        $request->user()->token()->revoke();
-
-        return response()->json([
-            'success' => true,
-
-            'message' => 'Session Cerrada'
-        ]);
-        }
-        else
-        {
-            return response()->json([
-                'success' => false,
     
-                'message' => 'Ocurrio Algun error'
-              ]);
-
-        }
-    }*/
-//FUNCIONAL EXCEPTO EL REVOKE
-    /*public function logout() {
-        $accessToken = Auth::user()->token();
-        DB::table('oauth_refresh_tokens')
-            ->where('access_token_id', $accessToken->id)
-            ->update([
-                'revoked' => true
-            ]);
-
-        $accessToken->revoke();
-        return response()->json(null, 204);
-    }*/
 
     public function logout(Request $request)
     {
