@@ -15,7 +15,8 @@ class TipoProveedorController extends Controller
      */
     public function index()
     {
-        //
+        $TipoProveedor = TipoProveedor::all();
+        return $TipoProveedor;
     }
 
     /**

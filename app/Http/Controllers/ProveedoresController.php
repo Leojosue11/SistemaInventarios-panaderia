@@ -44,7 +44,7 @@ class ProveedoresController extends Controller
             'MovilProveedor' => 'max:8',
             'EmailProveedor' => 'max:25',
             'FaxProveedor' => 'max:9',
-            'NITProveedor' => 'required|max:20|',
+            'NITProveedor' => '|max:20|',
             'NIDFiscal' => 'max:25',
             'TituloProveedor' => 'max:50'
         ],$Mensaje);
