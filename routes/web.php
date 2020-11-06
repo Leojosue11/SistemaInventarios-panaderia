@@ -57,6 +57,7 @@ Route::get('Sucursal', [SucursalController::class,'index']);
 Route::get('Inventario', [InventarioController::class,'index']);
 Route::post('login', [UsuarioController::class,'login']);
 Route::get('logout', [UsuarioController::class,'logout']);
+Route::get('TipoProveedor', [TipoProveedorController::class,'index']);
 
 
 
