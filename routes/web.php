@@ -13,6 +13,7 @@ use App\Http\Controllers\BodegaController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\MovimientosMPController;
 use App\Http\Controllers\SucursalController;
+use App\Http\Controllers\TipoProveedorController;
 
 /*
 |--------------------------------------------------------------------------
