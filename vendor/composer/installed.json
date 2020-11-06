@@ -1051,7 +1051,8 @@
             "data",
             "faker",
             "fixtures"
-        ]
+        ],
+        "abandoned": true
     },
     {
         "name": "graham-campbell/result-type",
