@@ -79,6 +79,7 @@ class ProveedoresController extends Controller
             'tipo_proveedors.IdTipo',
             'tipo_proveedors.NombreTipo'
             )
+        ->where('Inactivo' ,'<>', 1)
         ->orderByDesc("IdTipo")
         ->get();
         return $proveedores;
@@ -102,8 +103,21 @@ class ProveedoresController extends Controller
      * @param  \App\Models\Proveedores  $proveedores
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Proveedores $proveedores)
+    public function destroy($IdProveedor)
     {
-        //
+        $Proveedor=Proveedores::where('IdProveedor',$IdProveedor)
+                ->update([
+                    'Inactivo' => 1
+         ]);
+        // $res = User::destroy($id);
+        if ($Proveedor) {
+            return response()->json([
+                'msg' => 'Borrado exitoso'
+            ], 200);
+        } else {
+            return response()->json([
+                'msg' => 'No se encontró registro'
+            ], 402);
+        }
     }
 }

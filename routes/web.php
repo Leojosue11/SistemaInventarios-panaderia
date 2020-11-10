@@ -42,6 +42,7 @@ Route::get('UnidadMateria', [UnidadMedidasController::class,'index']);
 //Proveedores
 Route::get('Proveedores',[ProveedoresController::class,'index']);
 Route::post('Proveedores',[ProveedoresController::class,'store']);
+Route::post('Proveedores/{IdProveedor}', [ProveedoresController::class,'destroy']);
 Route::get('ListaProveedores',[ProveedoresController::class,'show']);
 
 Route::get('Productos',[ProductoController::class,'index']);

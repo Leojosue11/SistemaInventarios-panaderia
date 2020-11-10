@@ -26,6 +26,7 @@ class CreateProveedoresTable extends Migration
             $table->string('NITPRoveedor', 20)->nullable();
             $table->string('NIDFiscal', 25)->nullable();
             $table->string('TituloProveedor', 50)->nullable();
+            $table->boolean('Inactivo')->default(false);
             $table->timestamps();
         });
     }
