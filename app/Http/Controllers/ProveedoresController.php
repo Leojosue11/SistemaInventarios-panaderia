@@ -72,6 +72,7 @@ class ProveedoresController extends Controller
         $proveedores = DB::table('proveedores')
         ->join('tipo_proveedors', 'proveedores.TipoProveedorID', '=', 'tipo_proveedors.IdTipo')
         ->select(
+            'proveedores.IdProveedor',
             'proveedores.CodigoProveedor',
             'proveedores.NombreProveedor',
             'proveedores.TelefonoProveedor',
