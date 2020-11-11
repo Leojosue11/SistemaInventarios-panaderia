@@ -10,6 +10,7 @@ use App\Http\Controllers\RegistroMateriaPrimaController;
 use App\Http\Controllers\MateriaPrimaProveedorController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\BodegaController;
+use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\MovimientosMPController;
 use App\Http\Controllers\SucursalController;
 
@@ -50,6 +51,7 @@ Route::post('Pedido/{IdPedido}', [PedidoController::class,'update']);
 Route::get('MovimientoMP',[MovimientosMPController::class,'index']);
 Route::post('MovimientoMP',[MovimientosMPController::class,'store']);
 Route::get('Sucursal', [SucursalController::class,'index']);
+Route::get('Inventario', [InventarioController::class,'index']);
 
 
 
