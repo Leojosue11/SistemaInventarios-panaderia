@@ -42,6 +42,7 @@ class MateriaPrimaProveedorController extends Controller
                 'bodegas.NombreBodega',
                 'bodegas.IdBodega'
             )
+            ->where('materia_prima_proveedors.CantidadTotal','<>',0)
             ->orderByDesc("IDMatPrimaProveedor")
             ->get();
         return $materiaPrimaProveedor;

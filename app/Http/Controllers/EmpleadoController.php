@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TipoProveedor;
+use App\Models\Empleado;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class TipoProveedorController extends Controller
+class EmpleadoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,17 @@ class TipoProveedorController extends Controller
      */
     public function index()
     {
-        $TipoProveedor = TipoProveedor::all();
-        return $TipoProveedor;
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -33,10 +42,21 @@ class TipoProveedorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\TipoProveedor  $tipoProveedor
+     * @param  \App\Models\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
-    public function show(TipoProveedor $tipoProveedor)
+    public function show(Empleado $empleado)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Empleado  $empleado
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Empleado $empleado)
     {
         //
     }
@@ -45,10 +65,10 @@ class TipoProveedorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\TipoProveedor  $tipoProveedor
+     * @param  \App\Models\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TipoProveedor $tipoProveedor)
+    public function update(Request $request, Empleado $empleado)
     {
         //
     }
@@ -56,10 +76,10 @@ class TipoProveedorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\TipoProveedor  $tipoProveedor
+     * @param  \App\Models\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TipoProveedor $tipoProveedor)
+    public function destroy(Empleado $empleado)
     {
         //
     }

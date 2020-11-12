@@ -23,6 +23,7 @@ class CreatePedidosTable extends Migration
             $table->foreign('BodegaID')->references('IdBodega')->on('bodegas');
             $table->unsignedbigInteger('SucursalID');
             $table->foreign('SucursalID')->references('IdSucursal')->on('sucursals');
+            $table->bigInteger('NumeroPedido')->unique();
             $table->timestamps();
         });
     }

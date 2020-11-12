@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TipoProveedor;
+use App\Models\Titulo;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class TipoProveedorController extends Controller
+class TituloController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,17 @@ class TipoProveedorController extends Controller
      */
     public function index()
     {
-        $TipoProveedor = TipoProveedor::all();
-        return $TipoProveedor;
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -33,10 +42,21 @@ class TipoProveedorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\TipoProveedor  $tipoProveedor
+     * @param  \App\Models\Titulo  $titulo
      * @return \Illuminate\Http\Response
      */
-    public function show(TipoProveedor $tipoProveedor)
+    public function show(Titulo $titulo)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Titulo  $titulo
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Titulo $titulo)
     {
         //
     }
@@ -45,10 +65,10 @@ class TipoProveedorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\TipoProveedor  $tipoProveedor
+     * @param  \App\Models\Titulo  $titulo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TipoProveedor $tipoProveedor)
+    public function update(Request $request, Titulo $titulo)
     {
         //
     }
@@ -56,10 +76,10 @@ class TipoProveedorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\TipoProveedor  $tipoProveedor
+     * @param  \App\Models\Titulo  $titulo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TipoProveedor $tipoProveedor)
+    public function destroy(Titulo $titulo)
     {
         //
     }

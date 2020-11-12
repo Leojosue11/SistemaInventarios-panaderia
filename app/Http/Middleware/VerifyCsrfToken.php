@@ -18,13 +18,18 @@ class VerifyCsrfToken extends Middleware
         'http://localhost/PanaderiaBG/public/Usuarios',
         'http://localhost/PanaderiaBG/public/Roles',
         'http://localhost/PanaderiaBG/public/Proveedores',
+        'http://localhost/PanaderiaBG/public/ListaProveedores',
         'http://localhost/PanaderiaBG/public/MateriaPrimaProveedor',
         'http://localhost/PanaderiaBG/public/MateriaPrimaProveedor/*',
         'http://localhost/PanaderiaBG/public/Bodegas',
         'http://localhost/PanaderiaBG/public/ShowMateriaPrima',
         'http://localhost/PanaderiaBG/public/Pedido',
         'http://localhost/PanaderiaBG/public/Pedido/*',
-        'http://localhost/PanaderiaBG/public/Sucursal/'
+        'http://localhost/PanaderiaBG/public/Sucursal/',
+        'http://localhost/PanaderiaBG/public/login',
+        'http://localhost/PanaderiaBG/public/logout',
+        'http://localhost/PanaderiaBG/public/TipoProveedor',
+        'http://localhost/PanaderiaBG/public/Proveedores/*'
 
     ];
 }
