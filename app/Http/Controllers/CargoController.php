@@ -15,7 +15,9 @@ class CargoController extends Controller
      */
     public function index()
     {
-        //
+        
+        $cargo = Cargo::all();
+        return $cargo;
     }
 
     /**

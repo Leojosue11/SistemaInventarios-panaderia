@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Empleado;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class EmpleadoController extends Controller
 {
@@ -15,7 +17,8 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-        //
+        $empleados=Empleado::all();
+        return $empleados;
     }
 
     /**
@@ -25,7 +28,7 @@ class EmpleadoController extends Controller
      */
     public function create()
     {
-        //
+       
     }
 
     /**
@@ -36,7 +39,38 @@ class EmpleadoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $Mensaje=[
+            'required' => 'El :attribute es requerido',
+            'unique' => 'El registro ya existe en la base',
+        ];
+
+        $validaciones = validator::make($request->all(),[
+            //unique:nombredelatabla
+            'TituloID' => 'required',
+            'NombreEmpleado'=>'required|max:25',
+            'ApellidoEmpleado'=>'required|max:25',
+            'DireccionEmpleado'=>'required|max:100',
+            'EmailEmpleado' => 'required|max:30|unique:empleados',
+            'TelefonoEmpleado'=>'required|max:8',
+            'MovilEmpleado'=>'required|max:8',
+            'DUIEmpleado' => 'required|max:12|unique:empleados',
+            'GeneroEmpleado'=>'required',
+            'FechaContratacion'=>'required',
+            'FechaNacimiento'=>'required',
+            'CargoID' => 'required',
+           
+        ],$Mensaje);
+
+
+        if ($validaciones->fails()){
+            $errores = $validaciones->errors();
+
+            return response()-> json($errores, 402);
+        }else{
+             $empleados = Empleado::create($request->all());
+
+            return '{"msg":"creado","result":' . $empleados . '}';
+        };
     }
 
     /**
@@ -45,9 +79,27 @@ class EmpleadoController extends Controller
      * @param  \App\Models\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
-    public function show(Empleado $empleado)
+    public function show(Empleado $empleados)
     {
-        //
+        $empleados = DB::table('empleados')
+        ->join('titulos', 'empleados.TituloID', '=', 'titulos.IdTitulo')
+        ->join('cargos', 'empleados.CargoID', '=', 'cargos.IdCargo')
+        ->select(
+            
+            'empleados.NombreEmpleado',
+            'empleados.ApellidoEmpleado',
+            'empleados.DireccionEmpleado',
+            'empleados.MovilEmpleado',
+            'empleados.DUIEmpleado',
+            'empleados.GeneroEmpleado',
+            'empleados.FechaContratacion',
+            'titulos.IdTitulo',
+            'titulos.Titulo',
+            'cargos.IdCargo',
+            'cargos.NombreCargo'
+            )
+        ->get();
+        return $empleados;
     }
 
     /**

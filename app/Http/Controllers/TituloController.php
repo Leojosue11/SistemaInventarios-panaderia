@@ -15,7 +15,8 @@ class TituloController extends Controller
      */
     public function index()
     {
-        //
+        $Titulo = Titulo::all();
+        return $Titulo;
     }
 
     /**

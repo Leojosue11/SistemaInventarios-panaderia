@@ -14,6 +14,9 @@ use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\MovimientosMPController;
 use App\Http\Controllers\SucursalController;
 use App\Http\Controllers\TipoProveedorController;
+use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\TituloController;
+use App\Http\Controllers\CargoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +63,11 @@ Route::get('Inventario', [InventarioController::class,'index']);
 Route::post('login', [UsuarioController::class,'login']);
 Route::get('logout', [UsuarioController::class,'logout']);
 Route::get('TipoProveedor', [TipoProveedorController::class,'index']);
+Route::get('Empleados', [EmpleadoController::class,'index']);
+Route::post('Empleados', [EmpleadoController::class,'store']);
+Route::get('Titulo', [TituloController::class,'index']);
+Route::get('Cargo', [CargoController::class,'index']);
+
 
 
 // Route::put('MateriaPrima', [RegistroMateriaPrimaController::class, 'update']);

@@ -25,8 +25,8 @@ class CreateEmpleadosTable extends Migration
             $table->string('MovilEmpleado', 8);
             $table->string('DUIEmpleado', 12)->unique();
             $table->string('GeneroEmpleado', 1);
-            $table->date('FechaContratacion');
-            $table->date('FechaNacimiento');
+            $table->string('FechaContratacion');
+            $table->string('FechaNacimiento');
             $table->unsignedbigInteger('CargoID');
             $table->foreign('CargoID')->references('IdCargo')->on('cargos');
             $table->string('Observaciones', 200)->nullable()->default('Ninguna observación');

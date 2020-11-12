@@ -29,7 +29,11 @@ class VerifyCsrfToken extends Middleware
         'http://localhost/PanaderiaBG/public/login',
         'http://localhost/PanaderiaBG/public/logout',
         'http://localhost/PanaderiaBG/public/TipoProveedor',
-        'http://localhost/PanaderiaBG/public/Proveedores/*'
+        'http://localhost/PanaderiaBG/public/Proveedores/*',
+        'http://localhost/PanaderiaBG/public/Empleados',
+        'http://localhost/PanaderiaBG/Titulo',
+        'http://localhost/PanaderiaBG/Cargo',
+
 
     ];
 }
