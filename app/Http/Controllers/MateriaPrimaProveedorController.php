@@ -86,7 +86,23 @@ class MateriaPrimaProveedorController extends Controller
             $errores = $validator->errors();
             return response()->json($errores, 402);
         }
-
+        
+        $Inventario = inventario::where('RegistroMPID', $request["MateriaPrimaID"])->first();
+       
+       if ($Inventario == true)
+       {
+        //Verifica si no sobrepasa la capacidad maxima en inventario por materia prima
+        $SumaInv = $request["CantidadTotal"] + $Inventario["Disponible"];
+        if ($SumaInv > 60) {
+            //Muestra lo que queda de capacidad para ingresar
+            $Diferencia = 60 - $Inventario["Disponible"];
+            $message = array('Sobrepasa cantidad maxima en inventario (60), Capacidad restante: ' . $Diferencia);
+            return response()->json([
+                'msg' => $message,
+            ], 402);
+        }
+       }
+        
 
         //Valida que la fecha no sea inferior a la fecha de hoy
         $date = Carbon::now();
