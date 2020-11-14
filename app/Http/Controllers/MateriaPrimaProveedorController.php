@@ -33,6 +33,7 @@ class MateriaPrimaProveedorController extends Controller
                 'materia_prima_proveedors.Desperdicio',
                 'materia_prima_proveedors.FechaCaducidad',
                 'materia_prima_proveedors.PrecioUnitario',
+                'materia_prima_proveedors.Anulado',
                 'proveedores.IdProveedor',
                 'proveedores.NombreProveedor',
                 'registro_materia_primas.IdRegistroMP',
@@ -42,7 +43,7 @@ class MateriaPrimaProveedorController extends Controller
                 'bodegas.NombreBodega',
                 'bodegas.IdBodega'
             )
-            ->where('materia_prima_proveedors.CantidadTotal','<>',0)
+            ->where('materia_prima_proveedors.CantidadTotal', '<>', 0)
             ->orderByDesc("IDMatPrimaProveedor")
             ->get();
         return $materiaPrimaProveedor;
@@ -86,23 +87,52 @@ class MateriaPrimaProveedorController extends Controller
             $errores = $validator->errors();
             return response()->json($errores, 402);
         }
-        
+
+        //Busca registro en inventario
         $Inventario = inventario::where('RegistroMPID', $request["MateriaPrimaID"])->first();
-       
-       if ($Inventario == true)
-       {
-        //Verifica si no sobrepasa la capacidad maxima en inventario por materia prima
-        $SumaInv = $request["CantidadTotal"] + $Inventario["Disponible"];
-        if ($SumaInv > 60) {
-            //Muestra lo que queda de capacidad para ingresar
-            $Diferencia = 60 - $Inventario["Disponible"];
-            $message = array('Sobrepasa cantidad maxima en inventario (60), Capacidad restante: ' . $Diferencia);
-            return response()->json([
-                'msg' => $message,
-            ], 402);
+
+        if ($Inventario == true) {
+
+            //Verifica si no sobrepasa la capacidad maxima en inventario por materia prima
+            $SumaInv = $request["CantidadTotal"] + $Inventario["Disponible"];
+            if ($SumaInv > 60) 
+            {
+
+                //Muestra lo que queda de capacidad para ingresar
+                $Diferencia = 60 - $Inventario["Disponible"];
+
+                $message = array('Sobrepasa cantidad maxima en inventario (60), Capacidad restante: ' . $Diferencia);
+                return response()->json([
+                    'msg' => $message,
+                ], 402);
+            } 
+            else 
+                {
+                $Cantidad =  $this->actualizarDisponibilidad($Inventario["Disponible"], $request["CantidadTotal"]);
+
+                //Actualiza disponibilidad en inventario
+                DB::table('inventarios')->where('RegistroMPID', $request["MateriaPrimaID"])
+                    ->update([
+                        'Disponible' => $Cantidad
+                    ]);
+                }  
+        } else {
+            if ($request["CantidadTotal"] > 60) 
+            {
+                $message = array('Sobrepasa cantidad maxima en inventario (60)');
+                return response()->json([
+                    'msg' => $message,
+                ], 402);
+            }
+                
+            Inventario::create([
+                "RegistroMPID" => $request["MateriaPrimaID"],
+                "BodegaID" => $request["BodegaID"],
+                "Disponible" => $request["CantidadTotal"],
+                "FechaIngreso" => today()
+            ]);
         }
-       }
-        
+
 
         //Valida que la fecha no sea inferior a la fecha de hoy
         $date = Carbon::now();
@@ -124,25 +154,7 @@ class MateriaPrimaProveedorController extends Controller
         //Guarda Entrada de Materia Prima
         $MateriaPrimaProv = MateriaPrimaProveedor::create($request->all());
 
-        // Sino existe un registro en bodega de la Materia Prima lo crea, sino lo actualiza
-        $Inventario = inventario::where('RegistroMPID', $MateriaPrimaProv["MateriaPrimaID"])->first();
 
-        if ($Inventario == false) {
-            Inventario::create([
-                "RegistroMPID" => $MateriaPrimaProv["MateriaPrimaID"],
-                "BodegaID" => $MateriaPrimaProv["BodegaID"],
-                "Disponible" => $MateriaPrimaProv["CantidadTotal"],
-                "FechaIngreso" => today()
-            ]);
-        } else {
-            //Actualiza Disponibilidad de Bodega
-            $Cantidad =  $this->actualizarDisponibilidad($Inventario["Disponible"], $MateriaPrimaProv["CantidadTotal"]);
-
-            DB::table('inventarios')->where('RegistroMPID', $MateriaPrimaProv["MateriaPrimaID"])
-                ->update([
-                    'Disponible' => $Cantidad
-                ]);
-        }
         return '{"msg":"creado","result":' . $MateriaPrimaProv . '}';
     }
 
@@ -243,9 +255,35 @@ class MateriaPrimaProveedorController extends Controller
      * @param  \App\Models\MateriaPrimaProveedor  $materiaPrimaProveedor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MateriaPrimaProveedor $materiaPrimaProveedor)
-    {
-        //
+    public function destroy($EntradaID)
+    {   
+        $Entradas= MateriaPrimaProveedor::where('IDMatPrimaProveedor',$EntradaID)->first();
+        //Si existe el registro
+        if ($Entradas) {
+            //Verifica si el producto ya ha sido anulado
+            if($Entradas["Anulado"] == 1 )
+            {
+                return response()->json([
+                    'msg' => 'La entrada ya ha sido anulada',
+                ], 200);
+            }
+            //Busca en inventario y resta de inventario
+            $Inventario = inventario::where('RegistroMPID', $Entradas["MateriaPrimaID"])->first();
+            $Retornado = $this->RetornarProducto($Inventario["Disponible"], $Entradas["CantidadTotal"], $Entradas["MateriaPrimaID"]);
+            //Actualiza campo anulado en entrada
+            $Entradas= MateriaPrimaProveedor::where('IDMatPrimaProveedor',$EntradaID)
+                ->update([
+                    'Anulado' => 1
+         ]);
+            return response()->json([
+                'msg' => 'Anulado exitoso',   
+            ], 200);
+        } else {
+            return response()->json([
+                'msg' => 'No se encontró registro'
+            ], 402);
+        }
+ 
     }
     public function actualizarDisponibilidad($CantidadInv, $CantidadEntrada)
     {

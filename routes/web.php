@@ -54,6 +54,7 @@ Route::get('MateriaPrima', [RegistroMateriaPrimaController::class,'index']);
 Route::get('ShowMateriaPrima',[RegistroMateriaPrimaController::class,'ShowMateriaPrima']);
 Route::get('MateriaPrimaProveedor', [MateriaPrimaProveedorController::class,'index']);
 Route::post('MateriaPrimaProveedor/{IDMatPrimaProveedor}', [MateriaPrimaProveedorController::class,'update']);
+Route::post('AnularEntrada/{EntradaID}', [MateriaPrimaProveedorController::class,'destroy']);
 Route::get('Pedido',[PedidoController::class,'index']);
 Route::post('Pedido/{IdPedido}', [PedidoController::class,'update']);
 Route::get('MovimientoMP',[MovimientosMPController::class,'index']);

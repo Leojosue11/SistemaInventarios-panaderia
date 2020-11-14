@@ -27,6 +27,7 @@ class CreateMateriaPrimaProveedorsTable extends Migration
             $table->unsignedBigInteger('UnidadMedidaID');
             $table->foreign('UnidadMedidaID')->references('IdUnidadMedida')->on('unidad_medidas');
             $table->double('PrecioUnitario', 4, 2)->default(00.00);
+            $table->boolean('Anulado')->default(false);
             $table->timestamps();
         });
     }
