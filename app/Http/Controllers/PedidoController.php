@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pedido;
 use App\Models\inventario;
 use App\Models\MateriaPrimaProveedor;
+use App\Models\Sucursal;
 use App\Http\Controllers\Controller;
 use App\Models\MovimientosMP;
 use Illuminate\Http\Request;
@@ -24,16 +25,25 @@ class PedidoController extends Controller
             ->join('registro_materia_primas', 'pedidos.RegistroMPID', '=', 'registro_materia_primas.IdRegistroMP')
             ->join('bodegas', 'pedidos.BodegaID', '=', 'bodegas.IdBodega')
             ->join('sucursals', 'pedidos.SucursalID', '=', 'sucursals.IdSucursal')
+            ->join('encargados','sucursals.EncargadoID','=','encargados.IdEncargado')
+           
+            
+   
+
             ->select(
                 'pedidos.IdPedido',
                 'pedidos.CantidadPedido',
                 'pedidos.DescripcionPedido',
+                'pedidos.NumeroPedido',
                 'registro_materia_primas.IdRegistroMP',
                 'registro_materia_primas.NombreMP',
                 'bodegas.IdBodega',
                 'bodegas.NombreBodega',
                 'sucursals.IdSucursal',
                 'sucursals.NombreSucursal',
+                'encargados.IdEncargado',
+                'encargados.NombreEncargado',
+                
 
             )
             ->orderByDesc("Idpedido")
@@ -60,8 +70,10 @@ class PedidoController extends Controller
             'RegistroMPID' => 'required',
             'CantidadPedido' => 'required',
             'DescripcionPedido' => 'required',
+            'NumeroPedido' => 'required',
             'BodegaID' => 'required',
             'SucursalID' => 'required'
+
 
         ], $messages);
 
@@ -173,6 +185,7 @@ class PedidoController extends Controller
         $pedido->RegistroMPID = $request->input("RegistroMPID");
         $pedido->CantidadPedido = $request->input("CantidadPedido");
         $pedido->DescripcionPedido = $request->input("DescripcionPedido");
+        $pedido->NumeroPedido = $request->input("NumeroPedido");
         $pedido->BodegaID = $request->input("BodegaID");
         $pedido->SucursalID = $request->input("SucursalID");
         $pedido->save();

@@ -51,13 +51,15 @@ class EmpleadoController extends Controller
             'ApellidoEmpleado'=>'required|max:25',
             'DireccionEmpleado'=>'required|max:100',
             'EmailEmpleado' => 'required|max:30|unique:empleados',
-            'TelefonoEmpleado'=>'required|max:8',
-            'MovilEmpleado'=>'required|max:8',
+            'TelefonoEmpleado'=>'required',
+            'MovilEmpleado'=>'required',
             'DUIEmpleado' => 'required|max:12|unique:empleados',
             'GeneroEmpleado'=>'required',
             'FechaContratacion'=>'required',
             'FechaNacimiento'=>'required',
             'CargoID' => 'required',
+            'Observaciones' => 'max:100',
+            
            
         ],$Mensaje);
 
@@ -86,13 +88,18 @@ class EmpleadoController extends Controller
         ->join('cargos', 'empleados.CargoID', '=', 'cargos.IdCargo')
         ->select(
             
+            'empleados.IdEmpleado',
             'empleados.NombreEmpleado',
             'empleados.ApellidoEmpleado',
             'empleados.DireccionEmpleado',
+            'empleados.EmailEmpleado',
+            'empleado.TelefonoEmpleado',
             'empleados.MovilEmpleado',
             'empleados.DUIEmpleado',
             'empleados.GeneroEmpleado',
             'empleados.FechaContratacion',
+            'empleados.FechaNacimiento',
+            'empleados.Observacion',
             'titulos.IdTitulo',
             'titulos.Titulo',
             'cargos.IdCargo',
@@ -120,9 +127,26 @@ class EmpleadoController extends Controller
      * @param  \App\Models\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Empleado $empleado)
+    public function update(Request $request,$IdEmpleado)
     {
-        //
+        //Actualiza la informacion de Pedidos
+        $empleado = Empleado::find($IdEmpleado);
+        $empleado->TituloID = $request->input("TituloID");
+        $empleado->NombreEmpleado = $request->input("NombreEmpleado");
+        $empleado->ApellidoEmpleado = $request->input("ApellidoEmpleado");
+        $empleado->DireccionEmpleado = $request->input("DireccionEmpleado");
+        $empleado->EmailEmpleado = $request->input("EmailEmpleado");
+        $empleado->TelefonoEmpleado = $request->input("TelefonoEmpleado");
+        $empleado->MovilEmpleado = $request->input("MovilEmpleado");
+        $empleado->DUIEmpleado = $request->input("DUIEmpleado");
+        $empleado->GeneroEmpleado = $request->input("GeneroEmpleado");
+        $empleado->FechaContratacion = $request->input("FechaContratacion");
+        $empleado->FechaNacimiento = $request->input("FechaNacimiento");
+        $empleado->CargoID = $request->input("CargoID");
+        $empleado->Observaciones = $request->input("Observaciones");
+        
+        $empleado->save();
+        return response()->json($empleado);
     }
 
     /**

@@ -65,6 +65,7 @@ Route::get('logout', [UsuarioController::class,'logout']);
 Route::get('TipoProveedor', [TipoProveedorController::class,'index']);
 Route::get('Empleados', [EmpleadoController::class,'index']);
 Route::post('Empleados', [EmpleadoController::class,'store']);
+Route::post('Empleados/{IdEmpleado}', [EmpleadoController::class,'update']);
 Route::get('Titulo', [TituloController::class,'index']);
 Route::get('Cargo', [CargoController::class,'index']);
 
