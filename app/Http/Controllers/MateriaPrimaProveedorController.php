@@ -29,6 +29,7 @@ class MateriaPrimaProveedorController extends Controller
             ->join('unidad_medidas', 'materia_prima_proveedors.UnidadMedidaID', '=', 'unidad_medidas.IdUnidadMedida')
             ->join('bodegas', 'materia_prima_proveedors.BodegaID', '=', 'bodegas.IdBodega')
             ->select(
+                'materia_prima_proveedors.IDMatPrimaProveedor',
                 'materia_prima_proveedors.CantidadTotal',
                 'materia_prima_proveedors.Desperdicio',
                 'materia_prima_proveedors.FechaCaducidad',
@@ -44,6 +45,7 @@ class MateriaPrimaProveedorController extends Controller
                 'bodegas.IdBodega'
             )
             ->where('materia_prima_proveedors.CantidadTotal', '<>', 0)
+            ->where('materia_prima_proveedors.Anulado', '<>', 1)
             ->orderByDesc("IDMatPrimaProveedor")
             ->get();
         return $materiaPrimaProveedor;

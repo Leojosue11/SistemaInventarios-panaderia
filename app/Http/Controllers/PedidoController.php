@@ -70,7 +70,7 @@ class PedidoController extends Controller
             'RegistroMPID' => 'required',
             'CantidadPedido' => 'required',
             'DescripcionPedido' => 'required',
-            'NumeroPedido' => 'required',
+            'NumeroPedido' => 'required|max:6|',
             'BodegaID' => 'required',
             'SucursalID' => 'required'
 
