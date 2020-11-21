@@ -17,6 +17,7 @@ use App\Http\Controllers\TipoProveedorController;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\TituloController;
 use App\Http\Controllers\CargoController;
+use App\Http\Controllers\EncargadoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,7 @@ Route::get('ListaProveedores',[ProveedoresController::class,'show']);
 
 Route::get('Productos',[ProductoController::class,'index']);
 Route::get('MateriaPrima', [RegistroMateriaPrimaController::class,'index']);
+Route::get('Encargados', [EncargadoController::class,'index']);
 //Metodo para traer Materia Prima
 Route::get('ShowMateriaPrima',[RegistroMateriaPrimaController::class,'ShowMateriaPrima']);
 Route::get('MateriaPrimaProveedor', [MateriaPrimaProveedorController::class,'index']);
@@ -60,6 +62,10 @@ Route::post('Pedido/{IdPedido}', [PedidoController::class,'update']);
 Route::get('MovimientoMP',[MovimientosMPController::class,'index']);
 Route::post('MovimientoMP',[MovimientosMPController::class,'store']);
 Route::get('Sucursal', [SucursalController::class,'index']);
+Route::get('Sucursales', [SucursalController::class,'show']);
+Route::post('Sucursales', [SucursalController::class,'store']);
+Route::post('Sucursales/{IdSucursal}', [SucursalController::class,'update']);
+
 Route::get('Inventario', [InventarioController::class,'index']);
 Route::post('login', [UsuarioController::class,'login']);
 Route::get('logout', [UsuarioController::class,'logout']);

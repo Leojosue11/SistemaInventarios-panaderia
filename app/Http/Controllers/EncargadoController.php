@@ -15,7 +15,8 @@ class EncargadoController extends Controller
      */
     public function index()
     {
-        //
+        $encargado = Encargado::all();
+        return $encargado;
     }
 
     /**
