@@ -75,6 +75,7 @@ Route::post('Empleados', [EmpleadoController::class,'store']);
 Route::post('Empleados/{IdEmpleado}', [EmpleadoController::class,'update']);
 Route::get('Titulo', [TituloController::class,'index']);
 Route::get('Cargo', [CargoController::class,'index']);
+Route::post('MateriaPrimaAnular/{IdRegistroMP}', [RegistroMateriaPrimaController::class,'destroy']);
 
 
 

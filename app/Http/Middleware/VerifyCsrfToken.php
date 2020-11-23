@@ -37,6 +37,9 @@ class VerifyCsrfToken extends Middleware
         'http://localhost/PanaderiaBG/public/Titulo',
         'http://localhost/PanaderiaBG/public/Cargo',
         'http://localhost/PanaderiaBG/public/Encargados',
+      
+
+        
 
 
     ];

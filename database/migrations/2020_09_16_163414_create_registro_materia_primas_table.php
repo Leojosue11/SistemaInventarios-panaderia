@@ -24,7 +24,7 @@ class CreateRegistroMateriaPrimasTable extends Migration
             $table->string('Descripcion', 200)->nullable()->default('Sin descripción disponible'); //Opcional
             $table->unsignedBigInteger('UnidadMedidaID');
             $table->foreign('UnidadMedidaID')->references('IdUnidadMedida')->on('unidad_medidas'); //Llave foránea, tabla UnidadMedidas 
-
+            $table->boolean('Inactivo')->default(false);
             $table->timestamps();
         });
     }
