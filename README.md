@@ -1,2 +1,2 @@
 # SistemaInventarios-panaderia
-Backend sistema de Inventarios para una panaderia, todas las peticiones por medio de API para acceder a los CRUD 
+Backend para manejo de inventarios para una panaderia, parte de un proyecto API RestFull, cuenta con control de inventario por fechas de vencimiento 
